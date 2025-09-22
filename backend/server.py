@@ -65,13 +65,13 @@ class SareeItemCreate(BaseModel):
     pattern: str
 
 class TryOnRequest(BaseModel):
-    user_photo_base64: str
     saree_body_base64: Optional[str] = None
     saree_pallu_base64: Optional[str] = None
     saree_border_base64: Optional[str] = None
     saree_item_id: Optional[str] = None  # For catalog items
     pose_style: str = "front"  # "front", "side", "back"
     blouse_style: str = "traditional"  # "traditional", "modern", "sleeveless", "full_sleeve"
+    model_type: str = "indian_woman"  # Type of AI model to generate
 
 class TryOnResult(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
