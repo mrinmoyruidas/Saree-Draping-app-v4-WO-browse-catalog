@@ -168,46 +168,44 @@ async def create_virtual_tryon(request: TryOnRequest):
         
         logging.info(f"Processing uploaded images for virtual try-on...")
         
-        # Prepare images for OpenAI image editing
+        # Prepare images for enhanced virtual try-on generation
         try:
-            # Convert user photo from base64 to proper format
-            user_image_bytes = base64.b64decode(request.user_photo_base64)
+            # Analyze the uploaded user photo to extract characteristics
+            user_characteristics = await analyze_user_photo(request.user_photo_base64)
             
-            # For now, we'll use a hybrid approach:
-            # 1. First try to use the emergentintegrations with enhanced prompting that references the uploaded images
-            # 2. This will give better results than pure text-to-image
+            # Analyze saree components to extract design details
+            saree_design_details = await analyze_saree_components(
+                request.saree_body_base64,
+                request.saree_pallu_base64, 
+                request.saree_border_base64
+            )
             
-            # Create a detailed prompt based on the uploaded images
-            components_info = []
-            if request.saree_body_base64:
-                components_info.append("saree body design")
-            if request.saree_pallu_base64:
-                components_info.append("decorative pallu")
-            if request.saree_border_base64:
-                components_info.append("ornate border pattern")
-            
-            components_text = ", ".join(components_info) if components_info else "traditional saree elements"
-            
+            # Create a highly detailed prompt combining user characteristics and saree details
             enhanced_prompt = f"""
-            Create a highly realistic photograph of an Indian woman wearing a {saree_description} in a {pose_descriptions[request.pose_style]}.
+            Create a highly realistic photograph of a person wearing a {saree_description} in a {pose_descriptions[request.pose_style]}.
             
-            SPECIFIC REQUIREMENTS:
-            - The woman should have natural Indian features and complexion
-            - She should be wearing a {blouse_descriptions[request.blouse_style]}
-            - The saree should incorporate {components_text}
+            PERSON CHARACTERISTICS:
+            {user_characteristics}
+            
+            SAREE DESIGN DETAILS:
+            {saree_design_details}
+            
+            TECHNICAL REQUIREMENTS:
+            - The person should be wearing a {blouse_descriptions[request.blouse_style]}
             - Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
-            - Professional photography quality with excellent lighting
-            - Clean neutral background to highlight the outfit
+            - Professional photography quality with studio lighting
+            - Clean neutral background (light gray or white)
             - Natural, elegant pose that showcases the saree beautifully
-            - High resolution and photorealistic details
-            - The saree should look well-fitted and naturally draped
+            - High resolution (1024x1536) and photorealistic details
+            - The saree should look well-fitted and naturally draped on the person
+            - Maintain authentic Indian saree draping traditions
             
-            Style: Professional fashion photography, studio lighting, high-end fashion shoot quality
+            STYLE: Professional fashion photography, high-end fashion shoot quality, perfect lighting, sharp focus
             """
             
-            logging.info(f"Generating enhanced virtual try-on with {len(components_info)} saree components...")
+            logging.info(f"Generating personalized virtual try-on with user characteristics and saree details...")
             
-            # Use the emergentintegrations library with enhanced prompting
+            # Use the emergentintegrations library with highly detailed prompting
             result_images = await image_gen.generate_images(
                 prompt=enhanced_prompt,
                 model="gpt-image-1",
