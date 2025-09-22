@@ -169,58 +169,8 @@ async def create_virtual_tryon(request: TryOnRequest):
         
         logging.info(f"Processing uploaded images for virtual try-on...")
         
-        # Prepare images for enhanced virtual try-on generation
-        try:
-            # Analyze the uploaded user photo to extract characteristics
-            user_characteristics = await analyze_user_photo(request.user_photo_base64)
-            
-            # Analyze saree components to extract design details
-            saree_design_details = await analyze_saree_components(
-                request.saree_body_base64,
-                request.saree_pallu_base64, 
-                request.saree_border_base64
-            )
-            
-            # Create a highly detailed prompt combining user characteristics and saree details
-            enhanced_prompt = f"""
-            Create a highly realistic photograph of a person wearing a {saree_description} in a {pose_descriptions[request.pose_style]}.
-            
-            PERSON CHARACTERISTICS:
-            {user_characteristics}
-            
-            SAREE DESIGN DETAILS:
-            {saree_design_details}
-            
-            TECHNICAL REQUIREMENTS:
-            - The person should be wearing a {blouse_descriptions[request.blouse_style]}
-            - Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
-            - Professional photography quality with studio lighting
-            - Clean neutral background (light gray or white)
-            - Natural, elegant pose that showcases the saree beautifully
-            - High resolution (1024x1536) and photorealistic details
-            - The saree should look well-fitted and naturally draped on the person
-            - Maintain authentic Indian saree draping traditions
-            
-            STYLE: Professional fashion photography, high-end fashion shoot quality, perfect lighting, sharp focus
-            """
-            
-            logging.info(f"Generating personalized virtual try-on with user characteristics and saree details...")
-            
-            # Use the emergentintegrations library with highly detailed prompting
-            result_images = await image_gen.generate_images(
-                prompt=enhanced_prompt,
-                model="gpt-image-1",
-                number_of_images=1
-            )
-            
-            if not result_images or len(result_images) == 0:
-                raise HTTPException(status_code=500, detail="Failed to generate virtual try-on image")
-            
-            result_image_base64 = base64.b64encode(result_images[0]).decode('utf-8')
-                
-        except Exception as e:
-            logging.error(f"Virtual try-on generation failed: {str(e)}")
-            raise HTTPException(status_code=500, detail=f"Virtual try-on generation failed: {str(e)}")
+        # Get the result image base64
+        result_image_base64 = await process_virtual_tryon(request)
         
         # Create try-on result
         tryon_result = TryOnResult(
