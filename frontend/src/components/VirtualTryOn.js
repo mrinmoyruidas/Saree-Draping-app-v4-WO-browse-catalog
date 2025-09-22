@@ -369,7 +369,7 @@ const VirtualTryOn = () => {
           )}
         </AnimatePresence>
 
-        {/* Step 1: Upload Your Photo */}
+        {/* Step 1: Upload Saree Components */}
         {currentStep === 1 && (
           <motion.div
             initial={{ opacity: 0, x: 50 }}
@@ -377,44 +377,9 @@ const VirtualTryOn = () => {
             className="space-y-8"
           >
             <div className="text-center">
-              <h2 className="heading-medium">Upload Your Photo</h2>
+              <h2 className="heading-medium">Upload Your Saree</h2>
               <p className="text-body">
-                Upload a clear photo of yourself to see how sarees will look on you
-              </p>
-            </div>
-
-            <div className="max-w-md mx-auto">
-              {renderUploadZone(
-                userPhotoDropzone,
-                userPhoto,
-                'Your Photo',
-                'Upload a clear photo of yourself'
-              )}
-            </div>
-
-            <div className="text-center">
-              <button
-                onClick={nextStep}
-                disabled={!canProceedToStep2()}
-                className={`btn-primary ${!canProceedToStep2() ? 'opacity-50 cursor-not-allowed' : ''}`}
-              >
-                Continue to Saree Selection
-              </button>
-            </div>
-          </motion.div>
-        )}
-
-        {/* Step 2: Upload Saree Components */}
-        {currentStep === 2 && (
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            className="space-y-8"
-          >
-            <div className="text-center">
-              <h2 className="heading-medium">Upload Saree Components</h2>
-              <p className="text-body">
-                Upload different parts of your saree for the most accurate virtual try-on
+                Upload different parts of your saree to create the perfect virtual try-on
               </p>
             </div>
 
@@ -441,10 +406,7 @@ const VirtualTryOn = () => {
               )}
             </div>
 
-            <div className="text-center space-x-4">
-              <button onClick={prevStep} className="btn-secondary">
-                Back
-              </button>
+            <div className="text-center">
               <button
                 onClick={nextStep}
                 disabled={!canProceedToStep2()}
@@ -456,8 +418,8 @@ const VirtualTryOn = () => {
           </motion.div>
         )}
 
-        {/* Step 3: Customization Options */}
-        {currentStep === 3 && (
+        {/* Step 2: Customization Options */}
+        {currentStep === 2 && (
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
