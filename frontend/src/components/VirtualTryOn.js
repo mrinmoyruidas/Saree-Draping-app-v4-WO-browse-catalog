@@ -34,7 +34,6 @@ const VirtualTryOn = () => {
   const [error, setError] = useState('');
   
   // Form data
-  const [userPhoto, setUserPhoto] = useState(null);
   const [sareeBody, setSareeBody] = useState(null);
   const [sareePallu, setSareePallu] = useState(null);
   const [sareeBorder, setSareeBorder] = useState(null);
