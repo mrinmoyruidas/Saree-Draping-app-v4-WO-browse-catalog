@@ -252,8 +252,7 @@ const VirtualTryOn = () => {
               <button
                 onClick={(e) => {
                   e.stopPropagation();
-                  if (title.includes('Photo')) setUserPhoto(null);
-                  else if (title.includes('Body')) setSareeBody(null);
+                  if (title.includes('Body')) setSareeBody(null);
                   else if (title.includes('Pallu')) setSareePallu(null);
                   else if (title.includes('Border')) setSareeBorder(null);
                 }}
