@@ -127,48 +127,6 @@ async def create_virtual_tryon(request: TryOnRequest):
     try:
         logging.info(f"Starting virtual try-on process for pose: {request.pose_style}")
         
-        # Prepare the prompt based on the pose style
-        pose_descriptions = {
-            "front": "front-facing pose with arms naturally by the sides, looking directly at camera",
-            "side": "elegant side profile pose showing the saree draping, three-quarter turn",
-            "back": "back view showing the saree blouse design and rear draping, hair styled in a bun"
-        }
-        
-        blouse_descriptions = {
-            "traditional": "traditional fitted blouse with short sleeves",
-            "modern": "modern stylish blouse with contemporary cut",
-            "sleeveless": "sleeveless blouse design",
-            "full_sleeve": "full sleeve blouse with elegant design"
-        }
-        
-        # Create comprehensive prompt for image editing
-        saree_description = ""
-        if request.saree_item_id:
-            # Get saree from catalog
-            saree_item = await db.saree_catalog.find_one({"id": request.saree_item_id})
-            if saree_item:
-                saree_description = f"beautiful {saree_item['color']} saree with {saree_item['pattern']} pattern, {saree_item['description']}"
-        else:
-            saree_description = "beautiful traditional saree with intricate patterns and elegant border"
-        
-        # Create enhanced prompt that describes how to edit the images
-        prompt = f"""
-        Edit this image to show the person wearing a {saree_description} in a {pose_descriptions[request.pose_style]}. 
-        The person should be wearing a {blouse_descriptions[request.blouse_style]}. 
-        
-        IMPORTANT REQUIREMENTS:
-        1. Keep the person's original face and body shape exactly as in the uploaded photo
-        2. Apply the saree design from the uploaded saree images onto the person
-        3. Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
-        4. If saree pallu is provided, position it correctly over the shoulder
-        5. If saree border is provided, incorporate it along the saree edges
-        6. Maintain photorealistic quality and professional appearance
-        7. Keep the background clean and neutral to highlight the outfit
-        8. Ensure the final result looks natural and well-fitted on the person
-        """
-        
-        logging.info(f"Processing uploaded images for virtual try-on...")
-        
         # Get the result image base64
         result_image_base64 = await process_virtual_tryon(request)
         
