@@ -12,6 +12,7 @@ from typing import List, Optional
 import uuid
 from datetime import datetime
 from emergentintegrations.llm.openai.image_generation import OpenAIImageGeneration
+from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
 from openai import OpenAI
 import io
 from PIL import Image
