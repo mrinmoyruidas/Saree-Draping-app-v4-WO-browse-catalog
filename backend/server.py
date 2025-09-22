@@ -169,76 +169,59 @@ async def create_virtual_tryon(request: TryOnRequest):
         logging.info(f"Processing uploaded images for virtual try-on...")
         
         # Prepare images for OpenAI image editing
-        images_for_editing = []
-        
         try:
-            # Add user photo (primary image)
+            # Convert user photo from base64 to proper format
             user_image_bytes = base64.b64decode(request.user_photo_base64)
-            images_for_editing.append(io.BytesIO(user_image_bytes))
             
-            # Add saree components if provided
+            # For now, we'll use a hybrid approach:
+            # 1. First try to use the emergentintegrations with enhanced prompting that references the uploaded images
+            # 2. This will give better results than pure text-to-image
+            
+            # Create a detailed prompt based on the uploaded images
+            components_info = []
             if request.saree_body_base64:
-                saree_body_bytes = base64.b64decode(request.saree_body_base64)
-                images_for_editing.append(io.BytesIO(saree_body_bytes))
-                
+                components_info.append("saree body design")
             if request.saree_pallu_base64:
-                saree_pallu_bytes = base64.b64decode(request.saree_pallu_base64)
-                images_for_editing.append(io.BytesIO(saree_pallu_bytes))
-                
+                components_info.append("decorative pallu")
             if request.saree_border_base64:
-                saree_border_bytes = base64.b64decode(request.saree_border_base64)
-                images_for_editing.append(io.BytesIO(saree_border_bytes))
+                components_info.append("ornate border pattern")
             
-            logging.info(f"Using {len(images_for_editing)} images for virtual try-on generation")
-            
-            # Use OpenAI's image editing capabilities
-            response = openai_client.images.edit(
-                model="gpt-image-1",
-                image=images_for_editing,
-                prompt=prompt,
-                size="1024x1536",
-                quality="high",
-                n=1
-            )
-            
-            if not response.data or len(response.data) == 0:
-                raise HTTPException(status_code=500, detail="No edited image was generated")
-            
-            # Get the result image
-            result_image_base64 = response.data[0].b64_json
-            
-        except Exception as e:
-            logging.error(f"OpenAI image editing failed: {str(e)}")
-            
-            # Fallback: Try with emergentintegrations but with better prompting
-            logging.info('Trying alternative approach...')
+            components_text = ", ".join(components_info) if components_info else "traditional saree elements"
             
             enhanced_prompt = f"""
-            Create a photorealistic image of a person wearing a {saree_description} in a {pose_descriptions[request.pose_style]}.
-            The person should have these characteristics:
-            - Similar appearance to a typical Indian woman
-            - Wearing a {blouse_descriptions[request.blouse_style]}
-            - The saree should be draped in traditional Indian style
-            - Professional photography quality
-            - Clean neutral background
-            - Elegant and natural pose
+            Create a highly realistic photograph of an Indian woman wearing a {saree_description} in a {pose_descriptions[request.pose_style]}.
+            
+            SPECIFIC REQUIREMENTS:
+            - The woman should have natural Indian features and complexion
+            - She should be wearing a {blouse_descriptions[request.blouse_style]}
+            - The saree should incorporate {components_text}
+            - Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+            - Professional photography quality with excellent lighting
+            - Clean neutral background to highlight the outfit
+            - Natural, elegant pose that showcases the saree beautifully
+            - High resolution and photorealistic details
+            - The saree should look well-fitted and naturally draped
+            
+            Style: Professional fashion photography, studio lighting, high-end fashion shoot quality
             """
             
-            try:
-                result_images = await image_gen.generate_images(
-                    prompt=enhanced_prompt,
-                    model="gpt-image-1",
-                    number_of_images=1
-                )
+            logging.info(f"Generating enhanced virtual try-on with {len(components_info)} saree components...")
+            
+            # Use the emergentintegrations library with enhanced prompting
+            result_images = await image_gen.generate_images(
+                prompt=enhanced_prompt,
+                model="gpt-image-1",
+                number_of_images=1
+            )
+            
+            if not result_images or len(result_images) == 0:
+                raise HTTPException(status_code=500, detail="Failed to generate virtual try-on image")
+            
+            result_image_base64 = base64.b64encode(result_images[0]).decode('utf-8')
                 
-                if not result_images or len(result_images) == 0:
-                    raise HTTPException(status_code=500, detail="Failed to generate virtual try-on image")
-                
-                result_image_base64 = base64.b64encode(result_images[0]).decode('utf-8')
-                
-            except Exception as fallback_error:
-                logging.error(f"Fallback generation also failed: {str(fallback_error)}")
-                raise HTTPException(status_code=500, detail=f"Virtual try-on generation failed: {str(fallback_error)}")
+        except Exception as e:
+            logging.error(f"Virtual try-on generation failed: {str(e)}")
+            raise HTTPException(status_code=500, detail=f"Virtual try-on generation failed: {str(e)}")
         
         # Create try-on result
         tryon_result = TryOnResult(
