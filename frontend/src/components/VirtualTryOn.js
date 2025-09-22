@@ -226,7 +226,6 @@ const VirtualTryOn = () => {
   // Reset form
   const resetForm = () => {
     setCurrentStep(1);
-    setUserPhoto(null);
     setSareeBody(null);
     setSareePallu(null);
     setSareeBorder(null);
