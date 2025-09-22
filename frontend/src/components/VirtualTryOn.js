@@ -146,18 +146,17 @@ const VirtualTryOn = () => {
   // Generate virtual try-on
   const generateTryOn = async () => {
     if (!canGenerateResult()) {
-      setError('Please upload your photo and saree images');
+      setError('Please upload saree images or select from catalog');
       return;
     }
 
     setIsLoading(true);
     setError('');
-    setLoadingMessage('Preparing your images...');
+    setLoadingMessage('Preparing your saree design...');
 
     try {
-      // Prepare request data
+      // Prepare request data (no user photo needed)
       const requestData = {
-        user_photo_base64: userPhoto.base64,
         saree_body_base64: sareeBody?.base64 || null,
         saree_pallu_base64: sareePallu?.base64 || null,
         saree_border_base64: sareeBorder?.base64 || null,
