@@ -103,12 +103,6 @@ const VirtualTryOn = () => {
     }
   }, []);
 
-  const userPhotoDropzone = useDropzone({
-    onDrop: onUserPhotoDrop,
-    accept: { 'image/*': ['.jpeg', '.jpg', '.png', '.webp'] },
-    maxFiles: 1
-  });
-
   const sareeBodyDropzone = useDropzone({
     onDrop: onSareeBodyDrop,
     accept: { 'image/*': ['.jpeg', '.jpg', '.png', '.webp'] },
