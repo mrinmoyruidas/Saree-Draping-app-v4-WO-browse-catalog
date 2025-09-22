@@ -326,7 +326,7 @@ const VirtualTryOn = () => {
             
             {/* Progress indicators */}
             <div className="hidden md:flex items-center space-x-4">
-              {[1, 2, 3, 4].map((step) => (
+              {[1, 2, 3].map((step) => (
                 <div
                   key={step}
                   className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold ${
