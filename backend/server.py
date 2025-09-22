@@ -150,30 +150,95 @@ async def create_virtual_tryon(request: TryOnRequest):
         else:
             saree_description = "beautiful traditional saree with intricate patterns and elegant border"
         
+        # Create enhanced prompt that describes how to edit the images
         prompt = f"""
-        Transform this person into wearing a {saree_description} in a {pose_descriptions[request.pose_style]}. 
+        Edit this image to show the person wearing a {saree_description} in a {pose_descriptions[request.pose_style]}. 
         The person should be wearing a {blouse_descriptions[request.blouse_style]}. 
-        Ensure the saree is draped authentically in traditional Indian style with proper pleats and pallu positioning.
-        The final image should be photorealistic, professional quality, and show the complete outfit elegantly.
-        Background should be clean and neutral to highlight the saree.
+        
+        IMPORTANT REQUIREMENTS:
+        1. Keep the person's original face and body shape exactly as in the uploaded photo
+        2. Apply the saree design from the uploaded saree images onto the person
+        3. Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+        4. If saree pallu is provided, position it correctly over the shoulder
+        5. If saree border is provided, incorporate it along the saree edges
+        6. Maintain photorealistic quality and professional appearance
+        7. Keep the background clean and neutral to highlight the outfit
+        8. Ensure the final result looks natural and well-fitted on the person
         """
         
-        logging.info(f"Generating image with prompt: {prompt[:100]}...")
+        logging.info(f"Processing uploaded images for virtual try-on...")
         
-        # Call OpenAI Image Generation API (text-to-image only)
-        # Note: This library doesn't support image editing, only text-to-image generation
-        result_images = await image_gen.generate_images(
-            prompt=prompt,
-            model="gpt-image-1",
-            number_of_images=1,
-            quality="standard"
-        )
+        # Prepare images for OpenAI image editing
+        images_for_editing = []
         
-        if not result_images or len(result_images) == 0:
-            raise HTTPException(status_code=500, detail="No image was generated")
-        
-        # Convert result to base64
-        result_image_base64 = base64.b64encode(result_images[0]).decode('utf-8')
+        try:
+            # Add user photo (primary image)
+            user_image_bytes = base64.b64decode(request.user_photo_base64)
+            images_for_editing.append(io.BytesIO(user_image_bytes))
+            
+            # Add saree components if provided
+            if request.saree_body_base64:
+                saree_body_bytes = base64.b64decode(request.saree_body_base64)
+                images_for_editing.append(io.BytesIO(saree_body_bytes))
+                
+            if request.saree_pallu_base64:
+                saree_pallu_bytes = base64.b64decode(request.saree_pallu_base64)
+                images_for_editing.append(io.BytesIO(saree_pallu_bytes))
+                
+            if request.saree_border_base64:
+                saree_border_bytes = base64.b64decode(request.saree_border_base64)
+                images_for_editing.append(io.BytesIO(saree_border_bytes))
+            
+            logging.info(f"Using {len(images_for_editing)} images for virtual try-on generation")
+            
+            # Use OpenAI's image editing capabilities
+            response = openai_client.images.edit(
+                model="gpt-image-1",
+                image=images_for_editing,
+                prompt=prompt,
+                size="1024x1536",
+                quality="high",
+                n=1
+            )
+            
+            if not response.data or len(response.data) == 0:
+                raise HTTPException(status_code=500, detail="No edited image was generated")
+            
+            # Get the result image
+            result_image_base64 = response.data[0].b64_json
+            
+        except Exception as e:
+            logging.error(f"OpenAI image editing failed: {str(e)}")
+            
+            # Fallback: Try with emergentintegrations but with better prompting
+            logging.info('Trying alternative approach...')
+            
+            enhanced_prompt = f"""
+            Create a photorealistic image of a person wearing a {saree_description} in a {pose_descriptions[request.pose_style]}.
+            The person should have these characteristics:
+            - Similar appearance to a typical Indian woman
+            - Wearing a {blouse_descriptions[request.blouse_style]}
+            - The saree should be draped in traditional Indian style
+            - Professional photography quality
+            - Clean neutral background
+            - Elegant and natural pose
+            """
+            
+            try:
+                result_images = await image_gen.generate_images(
+                    prompt=enhanced_prompt,
+                    model="gpt-image-1",
+                    number_of_images=1
+                )
+                
+                if not result_images or len(result_images) == 0:
+                    raise HTTPException(status_code=500, detail="Failed to generate virtual try-on image")
+                
+                result_image_base64 = base64.b64encode(result_images[0]).decode('utf-8')
+                
+            except Exception as fallback_error:
+                logging.error(f"Fallback generation also failed: {str(fallback_error)}")
+                raise HTTPException(status_code=500, detail=f"Virtual try-on generation failed: {str(fallback_error)}")
         
         # Create try-on result
         tryon_result = TryOnResult(
