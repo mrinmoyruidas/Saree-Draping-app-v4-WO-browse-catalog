@@ -27,6 +27,8 @@ db = client[os.environ['DB_NAME']]
 # Initialize OpenAI Image Generation
 api_key = os.environ.get('EMERGENT_LLM_KEY')
 image_gen = OpenAIImageGeneration(api_key=api_key)
+# Also initialize direct OpenAI client for image editing
+openai_client = OpenAI(api_key=api_key)
 
 # Create the main app without a prefix
 app = FastAPI()
