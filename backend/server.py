@@ -289,6 +289,161 @@ async def analyze_saree_components(body_base64: str, pallu_base64: str, border_b
     
     return "\n".join(details)
 
+async def process_virtual_tryon(request: TryOnRequest):
+    """Process virtual try-on request and return base64 image"""
+    # Prepare the prompt based on the pose style
+    pose_descriptions = {
+        "front": "front-facing pose with arms naturally by the sides, looking directly at camera",
+        "side": "elegant side profile pose showing the saree draping, three-quarter turn",
+        "back": "back view showing the saree blouse design and rear draping, hair styled in a bun"
+    }
+    
+    blouse_descriptions = {
+        "traditional": "traditional fitted blouse with short sleeves",
+        "modern": "modern stylish blouse with contemporary cut",
+        "sleeveless": "sleeveless blouse design",
+        "full_sleeve": "full sleeve blouse with elegant design"
+    }
+    
+    # Create comprehensive prompt for image editing
+    saree_description = ""
+    if request.saree_item_id:
+        # Get saree from catalog
+        saree_item = await db.saree_catalog.find_one({"id": request.saree_item_id})
+        if saree_item:
+            saree_description = f"beautiful {saree_item['color']} saree with {saree_item['pattern']} pattern, {saree_item['description']}"
+    else:
+        saree_description = "beautiful traditional saree with intricate patterns and elegant border"
+    
+    # Prepare images for REAL virtual try-on using Nano Banana API
+    try:
+        logging.info("Starting REAL virtual try-on with uploaded images using Nano Banana API...")
+        
+        # Initialize Gemini chat for image editing (Nano Banana)
+        chat = LlmChat(
+            api_key=api_key, 
+            session_id=f"tryon_{uuid.uuid4()}", 
+            system_message="You are an expert virtual fashion try-on AI. You can edit images to show people wearing different sarees while maintaining their original appearance."
+        )
+        chat.with_model("gemini", "gemini-2.5-flash-image-preview").with_params(modalities=["image", "text"])
+        
+        # Prepare image contents for the API
+        image_contents = []
+        
+        # Add user photo (primary image for editing)
+        if request.user_photo_base64:
+            image_contents.append(ImageContent(request.user_photo_base64))
+            logging.info("Added user photo for virtual try-on")
+        
+        # Add saree components
+        if request.saree_body_base64:
+            image_contents.append(ImageContent(request.saree_body_base64))
+            logging.info("Added saree body image")
+            
+        if request.saree_pallu_base64:
+            image_contents.append(ImageContent(request.saree_pallu_base64))
+            logging.info("Added saree pallu image")
+            
+        if request.saree_border_base64:
+            image_contents.append(ImageContent(request.saree_border_base64))
+            logging.info("Added saree border image")
+        
+        # Create detailed virtual try-on prompt
+        virtual_tryon_prompt = f"""
+        VIRTUAL SAREE TRY-ON REQUEST:
+        
+        Please edit the first image (person's photo) to show them wearing the saree from the other uploaded images.
+        
+        SPECIFIC REQUIREMENTS:
+        1. KEEP THE PERSON'S FACE AND BODY EXACTLY THE SAME - only change the clothing
+        2. Use the saree designs from the uploaded saree images (body, pallu, border)
+        3. Apply the saree in a {pose_descriptions[request.pose_style]} pose
+        4. Add a {blouse_descriptions[request.blouse_style]} blouse
+        5. Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+        6. If multiple saree components are provided, combine them naturally (body fabric + pallu + border)
+        7. Maintain the person's original skin tone, facial features, and body proportions
+        8. Keep the background similar to the original or make it clean and neutral
+        9. Ensure the saree looks naturally fitted and properly draped
+        10. Create a photorealistic result that looks like a professional photo
+        
+        IMPORTANT: This should look like the same person wearing the uploaded saree, not a different person.
+        """
+        
+        # Create message with all images
+        message = UserMessage(
+            text=virtual_tryon_prompt,
+            file_contents=image_contents
+        )
+        
+        logging.info(f"Sending virtual try-on request with {len(image_contents)} images to Nano Banana API...")
+        
+        # Send to Gemini for image editing
+        text_response, generated_images = await chat.send_message_multimodal_response(message)
+        
+        if generated_images and len(generated_images) > 0:
+            # Get the first generated image
+            result_image_data = generated_images[0]['data']  # This is base64
+            logging.info(f"Successfully generated virtual try-on image via Nano Banana API")
+            
+            return result_image_data  # Return base64 directly
+            
+        else:
+            logging.warning("No images returned from Nano Banana API, trying fallback...")
+            raise Exception("No images generated from Nano Banana API")
+            
+    except Exception as nano_error:
+        logging.error(f"Nano Banana API failed: {str(nano_error)}")
+        
+        # Fallback to enhanced text-to-image generation
+        logging.info("Using fallback text-to-image generation...")
+        
+        # Analyze uploaded images for fallback
+        user_characteristics = await analyze_user_photo(request.user_photo_base64)
+        saree_design_details = await analyze_saree_components(
+            request.saree_body_base64,
+            request.saree_pallu_base64, 
+            request.saree_border_base64
+        )
+        
+        # Create fallback prompt
+        fallback_prompt = f"""
+        Create a highly realistic photograph of a person wearing a {saree_description} in a {pose_descriptions[request.pose_style]}.
+        
+        PERSON CHARACTERISTICS:
+        {user_characteristics}
+        
+        SAREE DESIGN DETAILS:
+        {saree_design_details}
+        
+        TECHNICAL REQUIREMENTS:
+        - The person should be wearing a {blouse_descriptions[request.blouse_style]}
+        - Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+        - Professional photography quality with studio lighting
+        - Clean neutral background (light gray or white)
+        - Natural, elegant pose that showcases the saree beautifully
+        - High resolution (1024x1536) and photorealistic details
+        - The saree should look well-fitted and naturally draped on the person
+        - Maintain authentic Indian saree draping traditions
+        
+        STYLE: Professional fashion photography, high-end fashion shoot quality, perfect lighting, sharp focus
+        """
+        
+        try:
+            result_images = await image_gen.generate_images(
+                prompt=fallback_prompt,
+                model="gpt-image-1",
+                number_of_images=1
+            )
+            
+            if not result_images or len(result_images) == 0:
+                raise HTTPException(status_code=500, detail="Failed to generate virtual try-on image")
+            
+            return base64.b64encode(result_images[0]).decode('utf-8')
+            
+        except Exception as fallback_error:
+            logging.error(f"Fallback generation also failed: {str(fallback_error)}")
+            raise HTTPException(status_code=500, detail=f"Virtual try-on generation failed: {str(fallback_error)}")
+
 # Favorites API
 @api_router.post("/favorites")
 async def add_to_favorites(favorite: FavoriteTryOn):
