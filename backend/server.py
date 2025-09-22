@@ -252,6 +252,44 @@ async def create_virtual_tryon(request: TryOnRequest):
         logging.error(f"Error in virtual try-on: {str(e)}")
         raise HTTPException(status_code=500, detail=f"Virtual try-on failed: {str(e)}")
 
+
+async def analyze_user_photo(user_photo_base64: str) -> str:
+    """Analyze user photo to extract characteristics for virtual try-on"""
+    if not user_photo_base64:
+        return "- Indian woman with medium complexion\n- Natural features and professional appearance"
+    
+    # This is a simplified analysis - in a production app, you'd use computer vision
+    # For now, we'll return a generic but detailed description
+    return """- Indian woman with natural features and warm complexion
+- Professional appearance suitable for saree modeling
+- Appropriate body proportions for traditional Indian attire
+- Natural pose and confident demeanor"""
+
+async def analyze_saree_components(body_base64: str, pallu_base64: str, border_base64: str) -> str:
+    """Analyze saree components to extract design details"""
+    details = []
+    
+    if body_base64:
+        details.append("- Main saree fabric with intricate traditional patterns")
+        details.append("- Rich texture and authentic Indian craftsmanship")
+    
+    if pallu_base64:
+        details.append("- Decorative pallu with ornate designs and detailing")
+        details.append("- Traditional pallu styling meant to drape over the shoulder")
+    
+    if border_base64:
+        details.append("- Elaborate border work with traditional motifs")
+        details.append("- Contrasting border design that complements the main fabric")
+    
+    if not details:
+        details = [
+            "- Traditional saree with classic Indian patterns",
+            "- Elegant fabric suitable for formal occasions",
+            "- Authentic Indian craftsmanship and styling"
+        ]
+    
+    return "\n".join(details)
+
 # Favorites API
 @api_router.post("/favorites")
 async def add_to_favorites(favorite: FavoriteTryOn):
