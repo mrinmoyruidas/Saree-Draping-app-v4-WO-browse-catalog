@@ -213,7 +213,7 @@ async def process_virtual_tryon(request: TryOnRequest):
         "full_sleeve": "full sleeve blouse with elegant design"
     }
     
-    # Create comprehensive prompt for image editing
+    # Create comprehensive prompt for saree generation
     saree_description = ""
     if request.saree_item_id:
         # Get saree from catalog
@@ -223,75 +223,97 @@ async def process_virtual_tryon(request: TryOnRequest):
     else:
         saree_description = "beautiful traditional saree with intricate patterns and elegant border"
     
-    # Prepare images for REAL virtual try-on using Nano Banana API
+    # Generate AI model with saree using Nano Banana API
     try:
-        logging.info("Starting REAL virtual try-on with uploaded images using Nano Banana API...")
+        logging.info("Starting AI model generation with saree components using Nano Banana API...")
         
-        # Initialize Gemini chat for image editing (Nano Banana)
+        # Initialize Gemini chat for image generation
         chat = LlmChat(
             api_key=api_key, 
             session_id=f"tryon_{uuid.uuid4()}", 
-            system_message="You are an expert virtual fashion try-on AI. You can edit images to show people wearing different sarees while maintaining their original appearance."
+            system_message="You are an expert fashion AI that can generate realistic models wearing sarees. You can incorporate uploaded saree designs into photorealistic fashion photography."
         )
         chat.with_model("gemini", "gemini-2.5-flash-image-preview").with_params(modalities=["image", "text"])
         
-        # Prepare image contents for the API
+        # Prepare image contents for saree components if available
         image_contents = []
+        saree_components_text = ""
         
-        # Add user photo (primary image for editing)
-        if request.user_photo_base64:
-            image_contents.append(ImageContent(request.user_photo_base64))
-            logging.info("Added user photo for virtual try-on")
-        
-        # Add saree components
         if request.saree_body_base64:
             image_contents.append(ImageContent(request.saree_body_base64))
-            logging.info("Added saree body image")
+            saree_components_text += "Use the main saree fabric pattern from the first uploaded image. "
+            logging.info("Added saree body image for AI model generation")
             
         if request.saree_pallu_base64:
             image_contents.append(ImageContent(request.saree_pallu_base64))
-            logging.info("Added saree pallu image")
+            saree_components_text += "Use the decorative pallu design from the uploaded pallu image. "
+            logging.info("Added saree pallu image for AI model generation")
             
         if request.saree_border_base64:
             image_contents.append(ImageContent(request.saree_border_base64))
-            logging.info("Added saree border image")
+            saree_components_text += "Use the border pattern from the uploaded border image. "
+            logging.info("Added saree border image for AI model generation")
         
-        # Create detailed virtual try-on prompt
-        virtual_tryon_prompt = f"""
-        VIRTUAL SAREE TRY-ON REQUEST:
+        # Create detailed prompt for AI model generation
+        if image_contents:
+            # Use uploaded saree components
+            model_generation_prompt = f"""
+            VIRTUAL SAREE MODEL GENERATION:
+            
+            Create a photorealistic image of a beautiful Indian woman wearing a saree that incorporates the designs from the uploaded images.
+            
+            SPECIFIC REQUIREMENTS:
+            1. Generate an elegant Indian woman model with natural features and warm complexion
+            2. {saree_components_text}
+            3. Position her in a {pose_descriptions[request.pose_style]} pose
+            4. She should be wearing a {blouse_descriptions[request.blouse_style]} blouse
+            5. Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+            6. Combine all uploaded saree elements (fabric, pallu, border) naturally into one beautiful saree
+            7. Professional fashion photography quality with studio lighting
+            8. Clean neutral background (light gray or white) to highlight the saree
+            9. Natural, elegant pose that showcases the saree beautifully
+            10. High resolution and photorealistic details
+            11. The saree should look well-fitted and naturally draped
+            12. Maintain authentic Indian saree draping traditions
+            
+            STYLE: High-end fashion photography, professional modeling, perfect lighting, sharp focus
+            """
+            
+            # Create message with saree component images
+            message = UserMessage(
+                text=model_generation_prompt,
+                file_contents=image_contents
+            )
+        else:
+            # Generate without uploaded components (using catalog or description)
+            model_generation_prompt = f"""
+            Create a photorealistic image of a beautiful Indian woman wearing a {saree_description} in a {pose_descriptions[request.pose_style]}.
+            
+            REQUIREMENTS:
+            - Elegant Indian woman model with natural features and warm complexion
+            - She should be wearing a {blouse_descriptions[request.blouse_style]} blouse
+            - Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+            - Professional fashion photography quality with studio lighting
+            - Clean neutral background to highlight the saree
+            - Natural, elegant pose that showcases the saree beautifully
+            - High resolution and photorealistic details
+            - The saree should look well-fitted and naturally draped
+            
+            STYLE: High-end fashion photography, professional modeling, perfect lighting
+            """
+            
+            # Create text-only message
+            message = UserMessage(text=model_generation_prompt)
         
-        Please edit the first image (person's photo) to show them wearing the saree from the other uploaded images.
+        logging.info(f"Sending AI model generation request with {len(image_contents)} saree component images to Nano Banana API...")
         
-        SPECIFIC REQUIREMENTS:
-        1. KEEP THE PERSON'S FACE AND BODY EXACTLY THE SAME - only change the clothing
-        2. Use the saree designs from the uploaded saree images (body, pallu, border)
-        3. Apply the saree in a {pose_descriptions[request.pose_style]} pose
-        4. Add a {blouse_descriptions[request.blouse_style]} blouse
-        5. Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
-        6. If multiple saree components are provided, combine them naturally (body fabric + pallu + border)
-        7. Maintain the person's original skin tone, facial features, and body proportions
-        8. Keep the background similar to the original or make it clean and neutral
-        9. Ensure the saree looks naturally fitted and properly draped
-        10. Create a photorealistic result that looks like a professional photo
-        
-        IMPORTANT: This should look like the same person wearing the uploaded saree, not a different person.
-        """
-        
-        # Create message with all images
-        message = UserMessage(
-            text=virtual_tryon_prompt,
-            file_contents=image_contents
-        )
-        
-        logging.info(f"Sending virtual try-on request with {len(image_contents)} images to Nano Banana API...")
-        
-        # Send to Gemini for image editing
+        # Send to Gemini for model generation with saree
         text_response, generated_images = await chat.send_message_multimodal_response(message)
         
         if generated_images and len(generated_images) > 0:
             # Get the first generated image
             result_image_data = generated_images[0]['data']  # This is base64
-            logging.info(f"Successfully generated virtual try-on image via Nano Banana API")
+            logging.info(f"Successfully generated AI model with saree via Nano Banana API")
             
             return result_image_data  # Return base64 directly
             
@@ -302,11 +324,10 @@ async def process_virtual_tryon(request: TryOnRequest):
     except Exception as nano_error:
         logging.error(f"Nano Banana API failed: {str(nano_error)}")
         
-        # Fallback to enhanced text-to-image generation
-        logging.info("Using fallback text-to-image generation...")
+        # Fallback to OpenAI image generation
+        logging.info("Using OpenAI fallback for AI model generation...")
         
-        # Analyze uploaded images for fallback
-        user_characteristics = await analyze_user_photo(request.user_photo_base64)
+        # Analyze saree components for fallback
         saree_design_details = await analyze_saree_components(
             request.saree_body_base64,
             request.saree_pallu_base64, 
@@ -315,22 +336,25 @@ async def process_virtual_tryon(request: TryOnRequest):
         
         # Create fallback prompt
         fallback_prompt = f"""
-        Create a highly realistic photograph of a person wearing a {saree_description} in a {pose_descriptions[request.pose_style]}.
+        Create a highly realistic photograph of a beautiful Indian woman wearing a {saree_description} in a {pose_descriptions[request.pose_style]}.
         
-        PERSON CHARACTERISTICS:
-        {user_characteristics}
+        MODEL CHARACTERISTICS:
+        - Elegant Indian woman with natural features and warm complexion
+        - Professional model appearance suitable for saree photography
+        - Appropriate body proportions for traditional Indian attire
+        - Confident and graceful demeanor
         
         SAREE DESIGN DETAILS:
         {saree_design_details}
         
         TECHNICAL REQUIREMENTS:
-        - The person should be wearing a {blouse_descriptions[request.blouse_style]}
+        - She should be wearing a {blouse_descriptions[request.blouse_style]} blouse
         - Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
         - Professional photography quality with studio lighting
         - Clean neutral background (light gray or white)
         - Natural, elegant pose that showcases the saree beautifully
         - High resolution (1024x1536) and photorealistic details
-        - The saree should look well-fitted and naturally draped on the person
+        - The saree should look well-fitted and naturally draped
         - Maintain authentic Indian saree draping traditions
         
         STYLE: Professional fashion photography, high-end fashion shoot quality, perfect lighting, sharp focus
@@ -344,13 +368,13 @@ async def process_virtual_tryon(request: TryOnRequest):
             )
             
             if not result_images or len(result_images) == 0:
-                raise HTTPException(status_code=500, detail="Failed to generate virtual try-on image")
+                raise HTTPException(status_code=500, detail="Failed to generate AI model with saree")
             
             return base64.b64encode(result_images[0]).decode('utf-8')
             
         except Exception as fallback_error:
             logging.error(f"Fallback generation also failed: {str(fallback_error)}")
-            raise HTTPException(status_code=500, detail=f"Virtual try-on generation failed: {str(fallback_error)}")
+            raise HTTPException(status_code=500, detail=f"AI model generation failed: {str(fallback_error)}")
 
 # Favorites API
 @api_router.post("/favorites")
