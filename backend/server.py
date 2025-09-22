@@ -12,6 +12,9 @@ from typing import List, Optional
 import uuid
 from datetime import datetime
 from emergentintegrations.llm.openai.image_generation import OpenAIImageGeneration
+from openai import OpenAI
+import io
+from PIL import Image
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
