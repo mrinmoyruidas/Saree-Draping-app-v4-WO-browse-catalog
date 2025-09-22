@@ -275,7 +275,7 @@ class SareeAPITester:
         print("\n🔍 KEY FINDINGS:")
         
         # Check critical functionality
-        virtual_tryon_working = any(r['name'] == 'Virtual Try-On Generation' and r['success'] for r in self.test_results)
+        virtual_tryon_working = any(r['name'] == 'Virtual Try-On (Full Components)' and r['success'] for r in self.test_results)
         catalog_working = any(r['name'] == 'Get Saree Catalog with Data' and r['success'] for r in self.test_results)
         favorites_working = any(r['name'] == 'Add to Favorites' and r['success'] for r in self.test_results)
         
