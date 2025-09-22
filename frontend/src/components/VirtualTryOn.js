@@ -178,7 +178,7 @@ const VirtualTryOn = () => {
           poseStyle: response.data.pose_style,
           blouseStyle: response.data.blouse_style
         });
-        setCurrentStep(4);
+        setCurrentStep(3);
       } else {
         throw new Error('No result image received');
       }
