@@ -153,34 +153,15 @@ async def create_virtual_tryon(request: TryOnRequest):
         Background should be clean and neutral to highlight the saree.
         """
         
-        # Prepare images for the API call
-        images_to_edit = []
+        logging.info(f"Generating image with prompt: {prompt[:100]}...")
         
-        # Add user photo (required)
-        user_image_bytes = base64.b64decode(request.user_photo_base64)
-        images_to_edit.append(user_image_bytes)
-        
-        # Add saree components if provided
-        if request.saree_body_base64:
-            saree_body_bytes = base64.b64decode(request.saree_body_base64)
-            images_to_edit.append(saree_body_bytes)
-            
-        if request.saree_pallu_base64:
-            saree_pallu_bytes = base64.b64decode(request.saree_pallu_base64)
-            images_to_edit.append(saree_pallu_bytes)
-            
-        if request.saree_border_base64:
-            saree_border_bytes = base64.b64decode(request.saree_border_base64)
-            images_to_edit.append(saree_border_bytes)
-        
-        logging.info(f"Sending request to OpenAI with {len(images_to_edit)} images")
-        
-        # Call OpenAI Image Generation API for editing
+        # Call OpenAI Image Generation API (text-to-image only)
+        # Note: This library doesn't support image editing, only text-to-image generation
         result_images = await image_gen.generate_images(
             prompt=prompt,
             model="gpt-image-1",
             number_of_images=1,
-            images=images_to_edit
+            quality="standard"
         )
         
         if not result_images or len(result_images) == 0:
