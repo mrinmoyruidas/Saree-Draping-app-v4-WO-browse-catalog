@@ -158,15 +158,11 @@ const VirtualTryOn = () => {
 
   // Validation
   const canProceedToStep2 = () => {
-    return userPhoto !== null;
-  };
-
-  const canProceedToStep3 = () => {
-    return sareeBody || selectedCatalogItem;
+    return sareeBody !== null || selectedCatalogItem !== null;
   };
 
   const canGenerateResult = () => {
-    return userPhoto && (sareeBody || selectedCatalogItem);
+    return sareeBody !== null || selectedCatalogItem !== null;
   };
 
   // Generate virtual try-on
