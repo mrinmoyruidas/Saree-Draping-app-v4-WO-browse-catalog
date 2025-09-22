@@ -522,8 +522,8 @@ const VirtualTryOn = () => {
           </motion.div>
         )}
 
-        {/* Step 4: Results */}
-        {currentStep === 4 && tryOnResult && (
+        {/* Step 3: Results */}
+        {currentStep === 3 && tryOnResult && (
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
