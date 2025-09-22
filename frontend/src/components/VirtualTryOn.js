@@ -123,7 +123,7 @@ const VirtualTryOn = () => {
 
   // Navigation handlers
   const nextStep = () => {
-    if (currentStep < 4) {
+    if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     }
   };
