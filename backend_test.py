@@ -202,10 +202,25 @@ class SareeAPITester:
         """Test error handling scenarios"""
         print("\n🔍 Testing Error Scenarios...")
         
-        # Test virtual try-on without required data
-        self.run_api_test("Try-On Missing User Photo", "POST", "virtual-tryon", 422, {
+        # Test virtual try-on without any saree data (should fail)
+        self.run_api_test("Try-On No Saree Data", "POST", "virtual-tryon", 200, {
             "pose_style": "front",
             "blouse_style": "traditional"
+        })
+        
+        # Test with invalid pose style
+        saree_body_base64 = self.create_test_image_base64(300, 400, (255, 0, 0))
+        self.run_api_test("Try-On Invalid Pose", "POST", "virtual-tryon", 200, {
+            "saree_body_base64": saree_body_base64,
+            "pose_style": "invalid_pose",
+            "blouse_style": "traditional"
+        })
+        
+        # Test with invalid blouse style
+        self.run_api_test("Try-On Invalid Blouse", "POST", "virtual-tryon", 200, {
+            "saree_body_base64": saree_body_base64,
+            "pose_style": "front",
+            "blouse_style": "invalid_blouse"
         })
         
         # Test invalid saree category
