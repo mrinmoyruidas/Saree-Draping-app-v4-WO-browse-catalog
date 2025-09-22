@@ -472,8 +472,8 @@ const VirtualTryOn = () => {
               </button>
               <button
                 onClick={nextStep}
-                disabled={!canProceedToStep3()}
-                className={`btn-primary ${!canProceedToStep3() ? 'opacity-50 cursor-not-allowed' : ''}`}
+                disabled={!canProceedToStep2()}
+                className={`btn-primary ${!canProceedToStep2() ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 Continue to Customization
               </button>
