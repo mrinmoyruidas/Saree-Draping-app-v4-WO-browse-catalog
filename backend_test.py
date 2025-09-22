@@ -129,17 +129,16 @@ class SareeAPITester:
         return success
 
     def test_virtual_tryon_endpoint(self):
-        """Test the main virtual try-on endpoint"""
+        """Test the main virtual try-on endpoint (NEW: No user photo required)"""
         print("\n🔍 Testing Virtual Try-On Endpoint (This may take up to 2 minutes)...")
         
-        # Create test images
-        user_photo_base64 = self.create_test_image_base64(400, 600, (200, 180, 160))  # Skin tone
+        # Create test saree component images (NO USER PHOTO NEEDED)
         saree_body_base64 = self.create_test_image_base64(300, 400, (255, 0, 0))      # Red saree
         saree_pallu_base64 = self.create_test_image_base64(200, 300, (255, 215, 0))   # Gold pallu
         saree_border_base64 = self.create_test_image_base64(50, 400, (0, 0, 255))     # Blue border
         
-        tryon_data = {
-            "user_photo_base64": user_photo_base64,
+        # Test 1: Full saree components (body + pallu + border)
+        tryon_data_full = {
             "saree_body_base64": saree_body_base64,
             "saree_pallu_base64": saree_pallu_base64,
             "saree_border_base64": saree_border_base64,
@@ -147,18 +146,34 @@ class SareeAPITester:
             "blouse_style": "traditional"
         }
         
-        # Test with longer timeout for AI processing
-        success, response = self.run_api_test("Virtual Try-On Generation", "POST", "virtual-tryon", 200, tryon_data, timeout=120)
+        success, response = self.run_api_test("Virtual Try-On (Full Components)", "POST", "virtual-tryon", 200, tryon_data_full, timeout=120)
         
+        tryon_id = None
         if success and response.get('id'):
             tryon_id = response['id']
-            
             # Test get try-on result
             self.run_api_test("Get Try-On Result", "GET", f"tryon/{tryon_id}/base64", 200)
-            
-            return tryon_id
         
-        return None
+        # Test 2: Only saree body (minimal requirement)
+        tryon_data_minimal = {
+            "saree_body_base64": saree_body_base64,
+            "pose_style": "side",
+            "blouse_style": "modern"
+        }
+        
+        self.run_api_test("Virtual Try-On (Body Only)", "POST", "virtual-tryon", 200, tryon_data_minimal, timeout=120)
+        
+        # Test 3: Different pose and blouse combinations
+        tryon_data_back = {
+            "saree_body_base64": saree_body_base64,
+            "saree_pallu_base64": saree_pallu_base64,
+            "pose_style": "back",
+            "blouse_style": "sleeveless"
+        }
+        
+        self.run_api_test("Virtual Try-On (Back Pose)", "POST", "virtual-tryon", 200, tryon_data_back, timeout=120)
+        
+        return tryon_id
 
     def test_favorites_endpoints(self, tryon_id=None):
         """Test favorites endpoints"""
