@@ -58,21 +58,6 @@ const VirtualTryOn = () => {
   ];
 
   // File upload handlers
-  const onUserPhotoDrop = useCallback((acceptedFiles) => {
-    const file = acceptedFiles[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = () => {
-        setUserPhoto({
-          file,
-          preview: reader.result,
-          base64: reader.result.split(',')[1]
-        });
-      };
-      reader.readAsDataURL(file);
-    }
-  }, []);
-
   const onSareeBodyDrop = useCallback((acceptedFiles) => {
     const file = acceptedFiles[0];
     if (file) {
