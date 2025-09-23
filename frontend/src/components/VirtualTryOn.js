@@ -46,10 +46,6 @@ const VirtualTryOn = () => {
     side: null
   });
 
-  const poseOptions = [
-    { value: 'front', label: 'Front View', description: 'Classic front-facing pose' },
-    { value: 'side', label: 'Side View', description: 'Elegant side profile' }
-  ];
 
   const blouseOptions = [
     { value: 'traditional', label: 'Traditional', description: 'Classic fitted blouse' },
