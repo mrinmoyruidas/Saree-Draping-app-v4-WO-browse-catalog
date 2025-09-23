@@ -335,25 +335,27 @@ async def process_virtual_tryon(request: TryOnRequest):
         if image_contents:
             # Use uploaded saree components
             model_generation_prompt = f"""
-            VIRTUAL SAREE MODEL GENERATION:
+            VIRTUAL SAREE MODEL GENERATION (Session: {session_id}):
             
             Create a photorealistic image of a beautiful Indian woman wearing a saree that incorporates the designs from the uploaded images.
             
             SPECIFIC REQUIREMENTS:
             1. Generate an elegant Indian woman model with natural features and warm complexion
-            2. {saree_components_text}
-            3. Position her in a {pose_descriptions[request.pose_style]} pose
-            4. She should be wearing a {blouse_descriptions[request.blouse_style]} blouse
-            5. Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
-            6. Combine all uploaded saree elements (fabric, pallu, border) naturally into one beautiful saree
-            7. Professional fashion photography quality with studio lighting
-            8. Clean neutral background (light gray or white) to highlight the saree
-            9. Natural, elegant pose that showcases the saree beautifully
-            10. CONSISTENT HIGH RESOLUTION: Generate image in exactly 1024x1536 pixels (2:3 aspect ratio)
-            11. CONSISTENT QUALITY: High-definition photorealistic details with sharp focus
-            12. The saree should look well-fitted and naturally draped
-            13. Maintain authentic Indian saree draping traditions
-            14. SAME PHOTOGRAPHY SESSION FEEL: Ensure lighting and background consistency
+            2. CONSISTENCY: If this is part of a multi-pose session, maintain the SAME MODEL appearance, facial features, skin tone, and body proportions
+            3. {saree_components_text}
+            4. Position her in a {pose_descriptions[request.pose_style]} pose
+            5. She should be wearing a {blouse_descriptions[request.blouse_style]} blouse
+            6. Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+            7. Combine all uploaded saree elements (fabric, pallu, border) naturally into one beautiful saree
+            8. Professional fashion photography quality with studio lighting
+            9. Clean neutral background (light gray or white) to highlight the saree
+            10. Natural, elegant pose that showcases the saree beautifully
+            11. CONSISTENT HIGH RESOLUTION: Generate image in exactly 1024x1536 pixels (2:3 aspect ratio)
+            12. CONSISTENT QUALITY: High-definition photorealistic details with sharp focus
+            13. The saree should look well-fitted and naturally draped
+            14. Maintain authentic Indian saree draping traditions
+            15. SAME PHOTOGRAPHY SESSION FEEL: Ensure lighting, background, and MODEL CONSISTENCY across poses
+            16. IMPORTANT: Keep the same woman's face, hair, and physical characteristics if generating multiple poses
             
             STYLE: High-end fashion photography, professional modeling, perfect lighting, sharp focus
             """
