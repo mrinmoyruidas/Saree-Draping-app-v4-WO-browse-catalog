@@ -343,10 +343,18 @@ async def process_virtual_tryon(request: TryOnRequest):
             1. Generate an elegant Indian woman model with natural features and warm complexion
             2. CONSISTENCY: If this is part of a multi-pose session, maintain the SAME MODEL appearance, facial features, skin tone, and body proportions
             3. BLOUSE CONSISTENCY: Use EXACTLY the same blouse color and design across all poses - {blouse_descriptions[request.blouse_style]} blouse
-            4. HAIRSTYLE CONSISTENCY: Maintain the SAME hairstyle, hair length, hair color, and hair accessories across all poses
+            4. HAIR & ACCESSORIES CONSISTENCY: 
+               - Maintain IDENTICAL hairstyle, hair length, hair color, and hair texture
+               - Keep EXACTLY the same hair accessories (flowers, clips, ornaments) in the same positions
+               - If hair has braids or specific styling, maintain that exact pattern
+               - Hair should look like the same person photographed from different angles, not restyled
             5. {saree_components_text}
             6. Position her in a {pose_descriptions[request.pose_style]} pose
-            7. Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+            7. SAREE DRAPING CONSISTENCY:
+               - Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+               - Maintain IDENTICAL pleating patterns and pallu fall across all poses
+               - The pallu should drape in the same manner, just shown from different angles
+               - Keep the same saree length and how it touches the ground
             8. Combine all uploaded saree elements (fabric, pallu, border) naturally into one beautiful saree with IDENTICAL patterns
             9. Professional fashion photography quality with studio lighting
             10. Clean neutral background (light gray or white) to highlight the saree
@@ -356,7 +364,7 @@ async def process_virtual_tryon(request: TryOnRequest):
             14. The saree should look well-fitted and naturally draped
             15. Maintain authentic Indian saree draping traditions
             16. SAME PHOTOGRAPHY SESSION FEEL: Ensure lighting, background, and MODEL CONSISTENCY across poses
-            17. CRITICAL: Keep the same woman's face, hair, blouse color, and saree pattern if generating multiple poses
+            17. CRITICAL: This should look like the SAME woman wearing the SAME saree with SAME hair and accessories, photographed from different angles in the same session
             
             STYLE: High-end fashion photography, professional modeling, perfect lighting, sharp focus
             """
