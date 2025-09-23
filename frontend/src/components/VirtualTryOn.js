@@ -153,19 +153,23 @@ const VirtualTryOn = () => {
     try {
       const poses = ['front', 'side'];
       const results = {};
+      
+      // Generate a unique session ID to maintain model consistency
+      const sessionId = `session_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
 
       for (let i = 0; i < poses.length; i++) {
         const pose = poses[i];
         setLoadingMessage(`Generating ${pose} view... (${i + 1}/2)`);
 
-        // Prepare request data
+        // Prepare request data with session ID for consistency
         const requestData = {
           saree_body_base64: sareeBody?.base64 || null,
           saree_pallu_base64: sareePallu?.base64 || null,
           saree_border_base64: sareeBorder?.base64 || null,
           saree_item_id: selectedCatalogItem?.id || null,
           pose_style: pose,
-          blouse_style: blouseStyle
+          blouse_style: blouseStyle,
+          session_id: sessionId  // Add session ID for consistency
         };
         
         const response = await axios.post(`${API}/virtual-tryon`, requestData, {
