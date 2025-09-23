@@ -252,7 +252,7 @@ async def generate_mock_tryon_image(request: TryOnRequest):
 async def process_virtual_tryon(request: TryOnRequest):
     """Process virtual try-on request and return base64 image"""
     # Validate pose and blouse styles
-    valid_poses = ["front", "side", "back"]
+    valid_poses = ["front", "side"]  # Back view disabled per user request
     valid_blouses = ["traditional", "modern", "sleeveless", "full_sleeve"]
     
     if request.pose_style not in valid_poses:
