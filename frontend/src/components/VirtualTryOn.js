@@ -16,7 +16,9 @@ import {
   ChevronDown,
   X,
   Check,
-  AlertCircle
+  AlertCircle,
+  ShoppingBag,
+  User
 } from 'lucide-react';
 import axios from 'axios';
 
