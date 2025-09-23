@@ -321,43 +321,74 @@ const VirtualTryOn = () => {
 
       {/* Header */}
       <div className="bg-black/20 backdrop-blur-lg border-b border-white/10 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+        <div className="container-responsive">
+          <div className="flex items-center justify-between py-4">
+            <div className="flex items-center space-x-3 md:space-x-4">
               <button
                 onClick={() => navigate('/')}
                 className="btn-secondary p-2"
               >
-                <ArrowLeft className="w-5 h-5" />
+                <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
               </button>
               <div className="flex items-center space-x-2">
-                <Sparkles className="w-6 h-6 text-yellow-400" />
-                <span className="text-xl font-bold text-white">Virtual Try-On</span>
+                <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-yellow-400" />
+                <span className="text-lg md:text-xl font-bold text-white">Virtual Try-On</span>
               </div>
             </div>
-            
-            {/* Progress indicators */}
-            <div className="hidden md:flex items-center space-x-4">
-              {[1, 2, 3].map((step) => (
-                <div
-                  key={step}
-                  className={`flex items-center justify-center w-8 h-8 rounded-full text-sm font-semibold ${
-                    step === currentStep
-                      ? 'bg-yellow-400 text-black'
-                      : step < currentStep
-                      ? 'bg-green-500 text-white'
-                      : 'bg-white/20 text-white/60'
-                  }`}
-                >
-                  {step < currentStep ? <Check className="w-4 h-4" /> : step}
+
+            <div className="flex items-center space-x-2 md:space-x-4">
+              {/* Progress Indicator */}
+              <div className="hidden sm:flex items-center space-x-2 bg-white/10 rounded-full px-3 md:px-4 py-1 md:py-2">
+                <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center text-xs md:text-sm font-medium ${
+                  currentStep >= 1 ? 'bg-yellow-400 text-black' : 'bg-white/20 text-white/60'
+                }`}>
+                  1
                 </div>
-              ))}
+                <div className={`w-4 h-0.5 ${currentStep >= 2 ? 'bg-yellow-400' : 'bg-white/20'}`} />
+                <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center text-xs md:text-sm font-medium ${
+                  currentStep >= 2 ? 'bg-yellow-400 text-black' : 'bg-white/20 text-white/60'
+                }`}>
+                  2
+                </div>
+                <div className={`w-4 h-0.5 ${currentStep >= 3 ? 'bg-yellow-400' : 'bg-white/20'}`} />
+                <div className={`w-6 h-6 md:w-8 md:h-8 rounded-full flex items-center justify-center text-xs md:text-sm font-medium ${
+                  currentStep >= 3 ? 'bg-yellow-400 text-black' : 'bg-white/20 text-white/60'
+                }`}>
+                  3
+                </div>
+              </div>
+
+              {/* Navigation Buttons */}
+              <div className="flex items-center space-x-2">
+                <button
+                  onClick={() => navigate('/catalog')}
+                  className="btn-secondary hidden md:flex items-center space-x-2"
+                >
+                  <ShoppingBag className="w-4 h-4" />
+                  <span>Catalog</span>
+                </button>
+                
+                <button
+                  onClick={() => navigate('/favorites')}
+                  className="btn-secondary hidden md:flex items-center space-x-2"
+                >
+                  <Heart className="w-4 h-4" />
+                  <span>Favorites</span>
+                </button>
+
+                {/* Mobile Menu */}
+                <div className="md:hidden">
+                  <button className="btn-secondary p-2">
+                    <User className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div className="container-responsive py-6 md:py-8">
         {/* Error Message */}
         <AnimatePresence>
           {error && (
