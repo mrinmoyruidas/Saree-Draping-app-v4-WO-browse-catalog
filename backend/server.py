@@ -448,7 +448,11 @@ async def process_virtual_tryon(request: TryOnRequest):
         - Confident and graceful demeanor
         - CONSISTENCY: If this is part of a multi-pose session, maintain the SAME MODEL appearance, facial features, skin tone, and body proportions
         - BLOUSE CONSISTENCY: Use EXACTLY the same blouse color and design - {blouse_descriptions[request.blouse_style]} blouse
-        - HAIRSTYLE CONSISTENCY: Maintain the SAME hairstyle, hair length, hair color, and hair accessories
+        - HAIR & ACCESSORIES CONSISTENCY: 
+          * Maintain IDENTICAL hairstyle, hair length, hair color, and hair texture
+          * Keep EXACTLY the same hair accessories (flowers, clips, ornaments) in the same positions
+          * If hair has braids or specific styling, maintain that exact pattern
+          * Hair should look like the same person photographed from different angles, not restyled
         
         SAREE DESIGN DETAILS:
         {saree_design_details}
