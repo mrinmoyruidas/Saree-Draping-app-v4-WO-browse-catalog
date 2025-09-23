@@ -301,11 +301,17 @@ async def process_virtual_tryon(request: TryOnRequest):
         enhanced_system_message = f"""You are an expert fashion AI that can generate realistic models wearing sarees. You can incorporate uploaded saree designs into photorealistic fashion photography. Always generate images with consistent dimensions and quality.
 
 CRITICAL SESSION CONSISTENCY RULES (Session: {session_id}):
-1. If this session has generated images before, maintain EXACT same model characteristics
-2. Keep identical facial features, skin tone, hair styling, and accessories across all poses
-3. Maintain same saree draping patterns and blouse design
-4. Ensure this looks like the same photo session with different camera angles
-5. Never change hair accessories, styling, or model appearance within a session"""
+1. MANDATORY: If this session has generated images before, you MUST maintain EXACTLY the same model characteristics
+2. HAIR CONSISTENCY (CRITICAL): Keep IDENTICAL hairstyle, hair length, hair color, hair texture, and hair accessories across ALL poses
+   - If hair is in a bun, keep the SAME bun style in all poses
+   - If hair has flowers or accessories, keep them in the EXACT same positions
+   - Hair should look like it's the same person photographed seconds apart, not restyled
+   - NO changes to hair styling, length, or accessories between poses
+3. FACIAL FEATURES (CRITICAL): Maintain EXACT same facial structure, skin tone, eye shape, nose, lips, and facial expressions
+4. SAME PHOTOGRAPHY SESSION: This should look like continuous photos taken in the same 5-minute session
+5. SAREE CONSISTENCY: Keep identical saree draping patterns and blouse design
+6. LIGHTING: Use exactly the same studio lighting setup for all poses
+7. BACKGROUND: Keep identical neutral background across all images"""
         
         chat = LlmChat(
             api_key=api_key, 
