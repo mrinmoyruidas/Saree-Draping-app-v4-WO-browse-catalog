@@ -282,13 +282,13 @@ const LandingPage = () => {
       </section>
 
       {/* How It Works Section */}
-      <section id="how-it-works" className="py-20 px-4 sm:px-6 lg:px-8 bg-black/20">
-        <div className="max-w-7xl mx-auto">
+      <section id="how-it-works" className="py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-black/20">
+        <div className="container-responsive">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-12 md:mb-16"
           >
             <h2 className="heading-medium">How It Works</h2>
             <p className="text-body max-w-2xl mx-auto">
@@ -296,7 +296,7 @@ const LandingPage = () => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
             {[
               {
                 step: "01",
@@ -304,7 +304,7 @@ const LandingPage = () => {
                 description: "Take or upload a clear photo of yourself in front, side, or back pose"
               },
               {
-                step: "02",
+                step: "02", 
                 title: "Choose Your Saree",
                 description: "Select from our catalog or upload your own saree design components"
               },
@@ -321,13 +321,13 @@ const LandingPage = () => {
                 transition={{ duration: 0.8, delay: index * 0.2 }}
                 className="card text-center relative"
               >
-                <div className="text-6xl font-bold text-yellow-400/20 mb-4">{step.step}</div>
-                <h3 className="heading-small text-lg mb-4">{step.title}</h3>
-                <p className="text-gray-300">{step.description}</p>
+                <div className="text-4xl md:text-6xl font-bold text-yellow-400/20 mb-4">{step.step}</div>
+                <h3 className="heading-small text-base md:text-lg mb-4">{step.title}</h3>
+                <p className="text-gray-300 text-sm md:text-base">{step.description}</p>
                 
                 {index < 2 && (
                   <div className="hidden md:block absolute top-1/2 -right-4 transform -translate-y-1/2">
-                    <ChevronRight className="w-8 h-8 text-yellow-400" />
+                    <ChevronRight className="w-6 h-6 md:w-8 md:h-8 text-yellow-400" />
                   </div>
                 )}
               </motion.div>
@@ -337,13 +337,13 @@ const LandingPage = () => {
       </section>
 
       {/* Testimonials Section */}
-      <section id="testimonials" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <section id="testimonials" className="py-12 md:py-20 px-4 sm:px-6 lg:px-8">
+        <div className="container-responsive">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-12 md:mb-16"
           >
             <h2 className="heading-medium">What Our Users Say</h2>
             <p className="text-body max-w-2xl mx-auto">
@@ -351,7 +351,7 @@ const LandingPage = () => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
             {testimonials.map((testimonial, index) => (
               <motion.div
                 key={index}
@@ -362,13 +362,13 @@ const LandingPage = () => {
               >
                 <div className="flex mb-4">
                   {[...Array(testimonial.rating)].map((_, i) => (
-                    <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
+                    <Star key={i} className="w-4 h-4 md:w-5 md:h-5 text-yellow-400 fill-current" />
                   ))}
                 </div>
-                <p className="text-gray-300 mb-6 italic">"{testimonial.text}"</p>
+                <p className="text-gray-300 mb-6 italic text-sm md:text-base">"{testimonial.text}"</p>
                 <div>
-                  <div className="font-semibold text-white">{testimonial.name}</div>
-                  <div className="text-sm text-gray-400">{testimonial.location}</div>
+                  <div className="font-semibold text-white text-sm md:text-base">{testimonial.name}</div>
+                  <div className="text-xs md:text-sm text-gray-400">{testimonial.location}</div>
                 </div>
               </motion.div>
             ))}
@@ -377,7 +377,7 @@ const LandingPage = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-800 to-indigo-800">
+      <section className="py-12 md:py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-purple-800 to-indigo-800">
         <div className="max-w-4xl mx-auto text-center">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -385,19 +385,19 @@ const LandingPage = () => {
             transition={{ duration: 0.8 }}
           >
             <h2 className="heading-medium mb-6">Ready to Transform Your Saree Shopping?</h2>
-            <p className="text-body mb-8 text-xl">
+            <p className="text-body mb-8 text-lg md:text-xl">
               Join thousands who are already experiencing the future of fashion with AI-powered virtual try-on
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <button
                 onClick={() => navigate('/tryon')}
-                className="btn-primary text-lg px-8 py-4"
+                className="btn-primary text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto"
               >
                 Start Virtual Try-On Now
               </button>
               <button
                 onClick={() => navigate('/catalog')}
-                className="btn-outline text-lg px-8 py-4"
+                className="btn-outline text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto"
               >
                 Browse Saree Collection
               </button>
@@ -407,23 +407,23 @@ const LandingPage = () => {
       </section>
 
       {/* Footer */}
-      <footer className="py-12 px-4 sm:px-6 lg:px-8 bg-black/40 border-t border-white/10">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <div className="flex items-center space-x-2 mb-4 md:mb-0">
-              <Sparkles className="w-6 h-6 text-yellow-400" />
-              <span className="text-xl font-bold text-white">SareeAI</span>
+      <footer className="py-8 md:py-12 px-4 sm:px-6 lg:px-8 bg-black/40 border-t border-white/10">
+        <div className="container-responsive">
+          <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
+            <div className="flex items-center space-x-2">
+              <Sparkles className="w-5 h-5 md:w-6 md:h-6 text-yellow-400" />
+              <span className="text-lg md:text-xl font-bold text-white">SareeAI</span>
             </div>
             
-            <div className="flex space-x-8">
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Privacy</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Terms</a>
-              <a href="#" className="text-gray-400 hover:text-white transition-colors">Support</a>
+            <div className="flex flex-wrap justify-center md:justify-end space-x-4 md:space-x-8">
+              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">Privacy</a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">Terms</a>
+              <a href="#" className="text-gray-400 hover:text-white transition-colors text-sm md:text-base">Support</a>
             </div>
           </div>
           
-          <div className="mt-8 pt-8 border-t border-white/10 text-center text-gray-400">
-            <p>&copy; 2025 SareeAI. All rights reserved. Experience the future of fashion.</p>
+          <div className="mt-6 md:mt-8 pt-6 md:pt-8 border-t border-white/10 text-center text-gray-400">
+            <p className="text-xs md:text-sm">&copy; 2025 SareeAI. All rights reserved. Experience the future of fashion.</p>
           </div>
         </div>
       </footer>
