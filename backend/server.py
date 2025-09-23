@@ -408,16 +408,20 @@ CRITICAL SESSION CONSISTENCY RULES (Session: {session_id}):
             - Elegant Indian woman model with natural features and warm complexion
             - CONSISTENCY: If this is part of a multi-pose session, maintain the SAME MODEL appearance, facial features, skin tone, and body proportions
             - BLOUSE CONSISTENCY: Use EXACTLY the same blouse color and design - {blouse_descriptions[request.blouse_style]} blouse
-            - HAIR & ACCESSORIES CONSISTENCY: 
-              * Maintain IDENTICAL hairstyle, hair length, hair color, and hair texture
-              * Keep EXACTLY the same hair accessories (flowers, clips, ornaments) in the same positions
-              * If hair has braids or specific styling, maintain that exact pattern
-              * Hair should look like the same person photographed from different angles, not restyled
-            - SAREE DRAPING CONSISTENCY:
+            - HAIR & ACCESSORIES CONSISTENCY (ABSOLUTELY CRITICAL): 
+              * Maintain IDENTICAL hairstyle, hair length, hair color, and hair texture in BOTH poses
+              * Keep EXACTLY the same hair accessories (flowers, clips, ornaments) in the SAME positions
+              * If hair has braids or bun, maintain that EXACT pattern and style
+              * Hair should look like the same person photographed from different angles within 30 seconds
+              * NO variation in hair styling, length, or accessories between front and side view
+              * SAME FACE STRUCTURE: Keep identical facial features, skin tone, eye shape, nose, lips
+              * SAME PERSON: This must look like the same individual, not different people
+            - SAREE DRAPING CONSISTENCY (ABSOLUTELY CRITICAL):
               * Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
-              * Maintain IDENTICAL pleating patterns and pallu fall across all poses
-              * The pallu should drape in the same manner, just shown from different angles
-              * Keep the same saree length and how it touches the ground
+              * Maintain PERFECTLY IDENTICAL pleating patterns and pallu fall across BOTH poses
+              * The pallu should drape in the EXACT same manner, just shown from different camera angles
+              * Keep the SAME saree length and how it touches the ground in both views
+              * IDENTICAL saree positioning: waist level, shoulder draping, pallu length must be exactly the same
             - Professional fashion photography quality with studio lighting
             - Clean neutral background to highlight the saree
             - Natural, elegant pose that showcases the saree beautifully
