@@ -11,7 +11,6 @@ import {
   Heart,
   Share2,
   RotateCw,
-  User,
   Palette,
   Shirt,
   ChevronDown,
