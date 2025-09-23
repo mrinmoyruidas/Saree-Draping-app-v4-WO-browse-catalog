@@ -251,6 +251,21 @@ async def generate_mock_tryon_image(request: TryOnRequest):
 
 async def process_virtual_tryon(request: TryOnRequest):
     """Process virtual try-on request and return base64 image"""
+    # Validate pose and blouse styles
+    valid_poses = ["front", "side", "back"]
+    valid_blouses = ["traditional", "modern", "sleeveless", "full_sleeve"]
+    
+    if request.pose_style not in valid_poses:
+        raise HTTPException(status_code=400, detail=f"Invalid pose_style. Must be one of: {valid_poses}")
+    
+    if request.blouse_style not in valid_blouses:
+        raise HTTPException(status_code=400, detail=f"Invalid blouse_style. Must be one of: {valid_blouses}")
+    
+    # Check if we have API key for real AI generation
+    if not api_key or api_key == 'your_api_key_here':
+        logging.info("Using mock AI generation due to missing API key")
+        return await generate_mock_tryon_image(request)
+    
     # Prepare the prompt based on the pose style
     pose_descriptions = {
         "front": "front-facing pose with arms naturally by the sides, looking directly at camera",
