@@ -436,50 +436,14 @@ const VirtualTryOn = () => {
             animate={{ opacity: 1, x: 0 }}
             className="space-y-8"
           >
-            <div className="text-center">
+            <div className="text-center mb-8">
               <h2 className="heading-medium">Customize Your Look</h2>
               <p className="text-body">
-                Choose your preferred pose and blouse style for the perfect result
+                Choose your preferred blouse style. We'll generate both front and side views for you!
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-8">
-              {/* Pose Selection */}
-              <div className="card">
-                <div className="flex items-center space-x-2 mb-4">
-                  <User className="w-5 h-5 text-yellow-400" />
-                  <h3 className="heading-small text-lg">Choose Pose</h3>
-                </div>
-                
-                <div className="space-y-3">
-                  {poseOptions.map((option) => (
-                    <motion.label
-                      key={option.value}
-                      className={`flex items-center p-3 rounded-lg cursor-pointer transition-colors ${
-                        poseStyle === option.value
-                          ? 'bg-purple-600/30 border-2 border-purple-400'
-                          : 'bg-white/5 border-2 border-transparent hover:bg-white/10'
-                      }`}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                    >
-                      <input
-                        type="radio"
-                        name="pose"
-                        value={option.value}
-                        checked={poseStyle === option.value}
-                        onChange={(e) => setPoseStyle(e.target.value)}
-                        className="sr-only"
-                      />
-                      <div className="flex-1">
-                        <div className="font-medium text-white">{option.label}</div>
-                        <div className="text-sm text-gray-300">{option.description}</div>
-                      </div>
-                    </motion.label>
-                  ))}
-                </div>
-              </div>
-
+            <div className="max-w-md mx-auto">
               {/* Blouse Style Selection */}
               <div className="card">
                 <div className="flex items-center space-x-2 mb-4">
