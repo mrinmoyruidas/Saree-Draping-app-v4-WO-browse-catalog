@@ -496,6 +496,8 @@ async def get_tryon_image(tryon_id: str):
             "pose_style": tryon["pose_style"],
             "blouse_style": tryon["blouse_style"]
         }
+    except HTTPException:
+        raise  # Re-raise HTTP exceptions as-is
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to get try-on image: {str(e)}")
 
