@@ -371,11 +371,14 @@ CRITICAL SESSION CONSISTENCY RULES (Session: {session_id}):
                - SAME SESSION: Both images should feel like they're from the same 5-minute photo shoot
             5. {saree_components_text}
             6. Position her in a {pose_descriptions[request.pose_style]} pose
-            7. SAREE DRAPING CONSISTENCY:
+            7. SAREE DRAPING CONSISTENCY (ABSOLUTELY CRITICAL):
                - Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
-               - Maintain IDENTICAL pleating patterns and pallu fall across all poses
-               - The pallu should drape in the same manner, just shown from different angles
-               - Keep the same saree length and how it touches the ground
+               - Maintain PERFECTLY IDENTICAL pleating patterns and pallu fall across BOTH poses
+               - The pallu should drape in the EXACT same manner, just shown from different camera angles
+               - Keep the SAME saree length and how it touches the ground in both views
+               - IDENTICAL saree positioning: waist level, shoulder draping, pallu length must be exactly the same
+               - The saree should look like it hasn't moved or been adjusted between the two photos
+               - SAME BLOUSE FIT: Keep identical blouse positioning and fit in both poses
             8. Combine all uploaded saree elements (fabric, pallu, border) naturally into one beautiful saree with IDENTICAL patterns
             9. Professional fashion photography quality with studio lighting
             10. Clean neutral background (light gray or white) to highlight the saree
