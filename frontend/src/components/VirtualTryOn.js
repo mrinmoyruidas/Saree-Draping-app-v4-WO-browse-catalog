@@ -498,82 +498,108 @@ const VirtualTryOn = () => {
         )}
 
         {/* Step 3: Results */}
-        {currentStep === 3 && tryOnResult && (
+        {currentStep === 3 && (tryOnResults.front || tryOnResults.side) && (
           <motion.div
             initial={{ opacity: 0, x: 50 }}
             animate={{ opacity: 1, x: 0 }}
             className="space-y-8"
           >
             <div className="text-center">
-              <h2 className="heading-medium">Your Virtual Try-On Result</h2>
+              <h2 className="heading-medium">Your Virtual Try-On Results</h2>
               <p className="text-body">
-                Here's how the saree looks on you! Save, share, or try another combination.
+                Here's how the saree looks on you from both angles! Save, share, or try another combination.
               </p>
             </div>
 
-            <div className="max-w-md mx-auto">
-              <div className="card">
-                <div className="image-preview">
-                  <img
-                    src={tryOnResult.image}
-                    alt="Virtual Try-On Result"
-                    className="w-full h-auto rounded-lg"
-                  />
+            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+              {/* Front View */}
+              {tryOnResults.front && (
+                <div className="card">
+                  <div className="text-center mb-4">
+                    <h3 className="heading-small text-lg">Front View</h3>
+                  </div>
+                  <div className="image-preview">
+                    <img
+                      src={tryOnResults.front.image}
+                      alt="Virtual Try-On Front View"
+                      className="w-full h-auto rounded-lg"
+                    />
+                  </div>
+                  
+                  <div className="mt-4 space-y-2">
+                    <p className="text-sm text-gray-300">
+                      <span className="font-medium">Blouse:</span> {blouseOptions.find(b => b.value === tryOnResults.front.blouseStyle)?.label}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap justify-center gap-2 mt-4">
+                    <button
+                      onClick={() => addToFavorites('front')}
+                      className="btn-secondary flex items-center space-x-2 text-sm"
+                    >
+                      <Heart className="w-4 h-4" />
+                      <span>Save</span>
+                    </button>
+                    
+                    <button
+                      onClick={() => downloadResult('front')}
+                      className="btn-secondary flex items-center space-x-2 text-sm"
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>Download</span>
+                    </button>
+                  </div>
                 </div>
-                
-                <div className="mt-4 space-y-2">
-                  <p className="text-sm text-gray-300">
-                    <span className="font-medium">Pose:</span> {poseOptions.find(p => p.value === tryOnResult.poseStyle)?.label}
-                  </p>
-                  <p className="text-sm text-gray-300">
-                    <span className="font-medium">Blouse:</span> {blouseOptions.find(b => b.value === tryOnResult.blouseStyle)?.label}
-                  </p>
+              )}
+
+              {/* Side View */}
+              {tryOnResults.side && (
+                <div className="card">
+                  <div className="text-center mb-4">
+                    <h3 className="heading-small text-lg">Side View</h3>
+                  </div>
+                  <div className="image-preview">
+                    <img
+                      src={tryOnResults.side.image}
+                      alt="Virtual Try-On Side View"
+                      className="w-full h-auto rounded-lg"
+                    />
+                  </div>
+                  
+                  <div className="mt-4 space-y-2">
+                    <p className="text-sm text-gray-300">
+                      <span className="font-medium">Blouse:</span> {blouseOptions.find(b => b.value === tryOnResults.side.blouseStyle)?.label}
+                    </p>
+                  </div>
+
+                  <div className="flex flex-wrap justify-center gap-2 mt-4">
+                    <button
+                      onClick={() => addToFavorites('side')}
+                      className="btn-secondary flex items-center space-x-2 text-sm"
+                    >
+                      <Heart className="w-4 h-4" />
+                      <span>Save</span>
+                    </button>
+                    
+                    <button
+                      onClick={() => downloadResult('side')}
+                      className="btn-secondary flex items-center space-x-2 text-sm"
+                    >
+                      <Download className="w-4 h-4" />
+                      <span>Download</span>
+                    </button>
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
 
-            <div className="flex flex-wrap justify-center gap-4">
-              <button
-                onClick={addToFavorites}
-                className="btn-secondary flex items-center space-x-2"
-              >
-                <Heart className="w-4 h-4" />
-                <span>Save to Favorites</span>
-              </button>
-              
-              <button
-                onClick={downloadResult}
-                className="btn-secondary flex items-center space-x-2"
-              >
-                <Download className="w-4 h-4" />
-                <span>Download</span>
-              </button>
-              
-              <button
-                onClick={() => {
-                  if (navigator.share && navigator.canShare) {
-                    navigator.share({
-                      title: 'My Virtual Saree Try-On',
-                      text: 'Check out how this saree looks on me!',
-                      files: [new File([tryOnResult.image], 'saree-tryon.png', { type: 'image/png' })]
-                    });
-                  } else {
-                    // Fallback - copy image to clipboard or show share dialog
-                    alert('Sharing feature coming soon!');
-                  }
-                }}
-                className="btn-secondary flex items-center space-x-2"
-              >
-                <Share2 className="w-4 h-4" />
-                <span>Share</span>
-              </button>
-              
+            <div className="text-center">
               <button
                 onClick={resetForm}
-                className="btn-primary flex items-center space-x-2"
+                className="btn-primary flex items-center space-x-2 mx-auto"
               >
                 <RotateCw className="w-4 h-4" />
-                <span>Try Another</span>
+                <span>Try Another Saree</span>
               </button>
             </div>
           </motion.div>
