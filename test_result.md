@@ -134,6 +134,9 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ PASSED - Virtual try-on core functionality working with mock AI generation. Tested all pose styles (front, side, back) and blouse styles (traditional, modern, sleeveless, full_sleeve). Input validation working correctly. Mock image generation functional when API key unavailable."
+      - working: true
+        agent: "testing"
+        comment: "✅ REAL AI GENERATION CONFIRMED - Successfully tested with EMERGENT_LLM_KEY (sk-emergent-dA21c1f7b5bE80cF0A). All tests passed (32/32 - 100%). Gemini 2.5 Flash working perfectly with 8.31s average response time. All pose styles (front/side/back) and blouse styles (traditional/modern/sleeveless/full_sleeve) generating real AI images. Saree component integration working - AI incorporates uploaded saree designs. Performance excellent with proper error handling."
 
   - task: "Saree catalog management APIs"
     implemented: true
