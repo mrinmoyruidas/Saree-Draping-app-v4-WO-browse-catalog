@@ -203,6 +203,52 @@ async def analyze_saree_components(body_base64: str, pallu_base64: str, border_b
     
     return "\n".join(details)
 
+async def generate_mock_tryon_image(request: TryOnRequest):
+    """Generate a mock try-on image for testing when API key is not available"""
+    logging.info(f"Generating mock try-on image for pose: {request.pose_style}, blouse: {request.blouse_style}")
+    
+    # Create a simple colored image as mock result
+    width, height = 400, 600
+    
+    # Choose color based on pose style
+    colors = {
+        "front": (255, 100, 100),  # Red
+        "side": (100, 255, 100),   # Green  
+        "back": (100, 100, 255)    # Blue
+    }
+    
+    color = colors.get(request.pose_style, (200, 200, 200))
+    
+    # Create mock image
+    img = Image.new('RGB', (width, height), color)
+    
+    # Add some text to indicate it's a mock
+    try:
+        draw = ImageDraw.Draw(img)
+        
+        # Try to use default font
+        try:
+            font = ImageFont.load_default()
+        except:
+            font = None
+            
+        text = f"MOCK SAREE\n{request.pose_style.upper()}\n{request.blouse_style.upper()}"
+        
+        if font:
+            draw.text((50, height//2 - 30), text, fill=(255, 255, 255), font=font)
+        else:
+            draw.text((50, height//2 - 30), text, fill=(255, 255, 255))
+            
+    except Exception as e:
+        logging.warning(f"Could not add text to mock image: {e}")
+    
+    # Convert to base64
+    buffer = BytesIO()
+    img.save(buffer, format='PNG')
+    img_bytes = buffer.getvalue()
+    
+    return base64.b64encode(img_bytes).decode('utf-8')
+
 async def process_virtual_tryon(request: TryOnRequest):
     """Process virtual try-on request and return base64 image"""
     # Prepare the prompt based on the pose style
