@@ -459,7 +459,11 @@ async def process_virtual_tryon(request: TryOnRequest):
         
         TECHNICAL REQUIREMENTS:
         - She should be wearing a {blouse_descriptions[request.blouse_style]} blouse with EXACT same color across poses
-        - Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+        - SAREE DRAPING CONSISTENCY:
+          * Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+          * Maintain IDENTICAL pleating patterns and pallu fall across all poses
+          * The pallu should drape in the same manner, just shown from different angles
+          * Keep the same saree length and how it touches the ground
         - Professional photography quality with studio lighting
         - Clean neutral background (light gray or white)
         - Natural, elegant pose that showcases the saree beautifully
@@ -467,7 +471,7 @@ async def process_virtual_tryon(request: TryOnRequest):
         - The saree should look well-fitted and naturally draped with IDENTICAL patterns
         - Maintain authentic Indian saree draping traditions
         - SAME PHOTOGRAPHY SESSION FEEL: Ensure lighting, background, and MODEL CONSISTENCY across poses
-        - CRITICAL: Keep the same woman's face, hair, blouse color, and saree pattern if generating multiple poses
+        - CRITICAL: This should look like the SAME woman wearing the SAME saree with SAME hair and accessories, photographed from different angles in the same session
         
         STYLE: Professional fashion photography, high-end fashion shoot quality, perfect lighting, sharp focus
         """
