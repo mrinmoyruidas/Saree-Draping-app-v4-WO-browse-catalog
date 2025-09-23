@@ -334,6 +334,24 @@
   box-shadow: var(--shadow-dark);
 }
 
+/* Responsive image container */
+.responsive-image-container {
+  max-height: 70vh; /* Limit height to 70% of viewport height */
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Responsive try-on images */
+.responsive-tryon-image {
+  max-width: 100%;
+  max-height: 70vh; /* Ensure image doesn't exceed 70% of viewport height */
+  width: auto;
+  height: auto;
+  object-fit: contain; /* Maintain aspect ratio while fitting container */
+}
+
 .image-preview img {
   width: 100%;
   height: auto;
@@ -356,4 +374,35 @@
 
 .image-preview:hover .image-preview-overlay {
   opacity: 1;
+}
+
+/* Mobile responsiveness for try-on results */
+@media (max-width: 1024px) {
+  .responsive-image-container {
+    max-height: 60vh; /* Slightly smaller on tablets */
+  }
+  
+  .responsive-tryon-image {
+    max-height: 60vh;
+  }
+}
+
+@media (max-width: 768px) {
+  .responsive-image-container {
+    max-height: 50vh; /* Smaller on mobile */
+  }
+  
+  .responsive-tryon-image {
+    max-height: 50vh;
+  }
+}
+
+@media (max-width: 480px) {
+  .responsive-image-container {
+    max-height: 45vh; /* Even smaller on small phones */
+  }
+  
+  .responsive-tryon-image {
+    max-height: 45vh;
+  }
 }
