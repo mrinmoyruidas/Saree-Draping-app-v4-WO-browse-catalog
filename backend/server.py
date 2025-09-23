@@ -441,7 +441,9 @@ async def process_virtual_tryon(request: TryOnRequest):
             result_images = await image_gen.generate_images(
                 prompt=fallback_prompt,
                 model="gpt-image-1",
-                number_of_images=1
+                number_of_images=1,
+                # Add consistent dimensions for OpenAI fallback
+                image_size="1024x1536"  # 2:3 aspect ratio
             )
             
             if not result_images or len(result_images) == 0:
