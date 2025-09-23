@@ -342,20 +342,21 @@ async def process_virtual_tryon(request: TryOnRequest):
             SPECIFIC REQUIREMENTS:
             1. Generate an elegant Indian woman model with natural features and warm complexion
             2. CONSISTENCY: If this is part of a multi-pose session, maintain the SAME MODEL appearance, facial features, skin tone, and body proportions
-            3. {saree_components_text}
-            4. Position her in a {pose_descriptions[request.pose_style]} pose
-            5. She should be wearing a {blouse_descriptions[request.blouse_style]} blouse
-            6. Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
-            7. Combine all uploaded saree elements (fabric, pallu, border) naturally into one beautiful saree
-            8. Professional fashion photography quality with studio lighting
-            9. Clean neutral background (light gray or white) to highlight the saree
-            10. Natural, elegant pose that showcases the saree beautifully
-            11. CONSISTENT HIGH RESOLUTION: Generate image in exactly 1024x1536 pixels (2:3 aspect ratio)
-            12. CONSISTENT QUALITY: High-definition photorealistic details with sharp focus
-            13. The saree should look well-fitted and naturally draped
-            14. Maintain authentic Indian saree draping traditions
-            15. SAME PHOTOGRAPHY SESSION FEEL: Ensure lighting, background, and MODEL CONSISTENCY across poses
-            16. IMPORTANT: Keep the same woman's face, hair, and physical characteristics if generating multiple poses
+            3. BLOUSE CONSISTENCY: Use EXACTLY the same blouse color and design across all poses - {blouse_descriptions[request.blouse_style]} blouse
+            4. HAIRSTYLE CONSISTENCY: Maintain the SAME hairstyle, hair length, hair color, and hair accessories across all poses
+            5. {saree_components_text}
+            6. Position her in a {pose_descriptions[request.pose_style]} pose
+            7. Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+            8. Combine all uploaded saree elements (fabric, pallu, border) naturally into one beautiful saree with IDENTICAL patterns
+            9. Professional fashion photography quality with studio lighting
+            10. Clean neutral background (light gray or white) to highlight the saree
+            11. Natural, elegant pose that showcases the saree beautifully
+            12. CONSISTENT HIGH RESOLUTION: Generate image in exactly 1024x1536 pixels (2:3 aspect ratio)
+            13. CONSISTENT QUALITY: High-definition photorealistic details with sharp focus
+            14. The saree should look well-fitted and naturally draped
+            15. Maintain authentic Indian saree draping traditions
+            16. SAME PHOTOGRAPHY SESSION FEEL: Ensure lighting, background, and MODEL CONSISTENCY across poses
+            17. CRITICAL: Keep the same woman's face, hair, blouse color, and saree pattern if generating multiple poses
             
             STYLE: High-end fashion photography, professional modeling, perfect lighting, sharp focus
             """
