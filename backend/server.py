@@ -296,10 +296,21 @@ async def process_virtual_tryon(request: TryOnRequest):
         # Initialize Gemini chat for image generation with consistent parameters
         # Use provided session_id for consistency across multiple poses
         session_id = request.session_id or f"tryon_{uuid.uuid4()}"
+        
+        # Enhanced system message for better consistency
+        enhanced_system_message = f"""You are an expert fashion AI that can generate realistic models wearing sarees. You can incorporate uploaded saree designs into photorealistic fashion photography. Always generate images with consistent dimensions and quality.
+
+CRITICAL SESSION CONSISTENCY RULES (Session: {session_id}):
+1. If this session has generated images before, maintain EXACT same model characteristics
+2. Keep identical facial features, skin tone, hair styling, and accessories across all poses
+3. Maintain same saree draping patterns and blouse design
+4. Ensure this looks like the same photo session with different camera angles
+5. Never change hair accessories, styling, or model appearance within a session"""
+        
         chat = LlmChat(
             api_key=api_key, 
             session_id=session_id, 
-            system_message="You are an expert fashion AI that can generate realistic models wearing sarees. You can incorporate uploaded saree designs into photorealistic fashion photography. Always generate images with consistent dimensions and quality."
+            system_message=enhanced_system_message
         )
         chat.with_model("gemini", "gemini-2.5-flash-image-preview").with_params(
             modalities=["image", "text"],
