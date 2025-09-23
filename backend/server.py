@@ -213,8 +213,7 @@ async def generate_mock_tryon_image(request: TryOnRequest):
     # Choose color based on pose style
     colors = {
         "front": (255, 100, 100),  # Red
-        "side": (100, 255, 100),   # Green  
-        "back": (100, 100, 255)    # Blue
+        "side": (100, 255, 100)    # Green  
     }
     
     color = colors.get(request.pose_style, (200, 200, 200))
