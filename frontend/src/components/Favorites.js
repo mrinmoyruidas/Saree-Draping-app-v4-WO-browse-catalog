@@ -228,39 +228,39 @@ const Favorites = () => {
     <div className="min-h-screen bg-gradient-to-br from-purple-900 via-purple-800 to-indigo-900">
       {/* Header */}
       <div className="bg-black/20 backdrop-blur-lg border-b border-white/10 sticky top-0 z-40">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center space-x-4">
+        <div className="container-responsive">
+          <div className="flex items-center justify-between py-4">
+            <div className="flex items-center space-x-3 md:space-x-4">
               <button
                 onClick={() => navigate('/')}
                 className="btn-secondary p-2"
               >
-                <ArrowLeft className="w-5 h-5" />
+                <ArrowLeft className="w-4 h-4 md:w-5 md:h-5" />
               </button>
               <div className="flex items-center space-x-2">
-                <Heart className="w-6 h-6 text-yellow-400" />
-                <span className="text-xl font-bold text-white">My Favorites</span>
+                <Heart className="w-5 h-5 md:w-6 md:h-6 text-yellow-400" />
+                <span className="text-lg md:text-xl font-bold text-white">My Favorites</span>
               </div>
             </div>
 
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 md:space-x-4">
               {/* Bulk actions */}
               {selectedItems.length > 0 && (
-                <div className="flex items-center space-x-2 bg-purple-600/20 rounded-lg px-4 py-2">
-                  <span className="text-sm text-white">{selectedItems.length} selected</span>
+                <div className="flex items-center space-x-2 bg-purple-600/20 rounded-lg px-3 md:px-4 py-2">
+                  <span className="text-xs md:text-sm text-white">{selectedItems.length} selected</span>
                   <button
                     onClick={downloadSelectedItems}
-                    className="btn-secondary p-2"
+                    className="btn-secondary p-1.5 md:p-2"
                     title="Download selected"
                   >
-                    <Download className="w-4 h-4" />
+                    <Download className="w-3 h-3 md:w-4 md:h-4" />
                   </button>
                   <button
                     onClick={removeSelectedItems}
-                    className="btn-secondary p-2 text-red-400 hover:text-red-300"
+                    className="btn-secondary p-1.5 md:p-2 text-red-400 hover:text-red-300"
                     title="Remove selected"
                   >
-                    <Trash2 className="w-4 h-4" />
+                    <Trash2 className="w-3 h-3 md:w-4 md:h-4" />
                   </button>
                 </div>
               )}
