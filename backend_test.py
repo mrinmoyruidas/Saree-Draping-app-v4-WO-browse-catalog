@@ -368,8 +368,9 @@ class SareeAPITester:
         self.run_api_test("Remove Non-existent Favorite", "DELETE", "favorites/invalid_id", 404)
 
     def run_all_tests(self):
-        """Run all API tests"""
+        """Run all API tests with focus on AI image generation"""
         print("🚀 Starting Saree Virtual Try-On API Tests")
+        print("🤖 FOCUS: Testing REAL AI Image Generation with EMERGENT_LLM_KEY")
         print(f"🌐 Testing against: {self.base_url}")
         print("=" * 60)
         
@@ -382,9 +383,15 @@ class SareeAPITester:
         print("\n👗 Testing Saree Catalog...")
         self.test_saree_catalog_endpoints()
         
-        # Virtual try-on tests (core functionality)
-        print("\n✨ Testing Virtual Try-On (Core Feature)...")
+        # AI-powered virtual try-on tests (MAIN FOCUS)
+        print("\n✨ Testing AI-Powered Virtual Try-On (CORE FEATURE)...")
         tryon_id = self.test_virtual_tryon_endpoint()
+        
+        # AI model selection tests
+        self.test_ai_model_selection()
+        
+        # Performance tests
+        self.test_performance_and_timeouts()
         
         # Favorites tests
         print("\n❤️  Testing Favorites...")
@@ -395,7 +402,7 @@ class SareeAPITester:
         
         # Print final results
         print("\n" + "=" * 60)
-        print("📊 TEST RESULTS SUMMARY")
+        print("📊 AI IMAGE GENERATION TEST RESULTS")
         print("=" * 60)
         
         success_rate = (self.tests_passed / self.tests_run * 100) if self.tests_run > 0 else 0
@@ -407,27 +414,54 @@ class SareeAPITester:
                 if not result['success']:
                     print(f"   • {result['name']}: {result['message']}")
         
-        print("\n🔍 KEY FINDINGS:")
+        print("\n🔍 AI GENERATION ANALYSIS:")
         
-        # Check critical functionality
-        virtual_tryon_working = any(r['name'] == 'Virtual Try-On (Full Components)' and r['success'] for r in self.test_results)
-        catalog_working = any(r['name'] == 'Get Saree Catalog with Data' and r['success'] for r in self.test_results)
-        favorites_working = any(r['name'] == 'Add to Favorites' and r['success'] for r in self.test_results)
+        # Check AI-specific functionality
+        ai_tests = [r for r in self.test_results if 'AI' in r['name'] or 'Try-On' in r['name']]
+        ai_verification_tests = [r for r in self.test_results if 'AI Verification' in r['name']]
         
-        if virtual_tryon_working:
-            print("   ✅ Virtual Try-On (Core Feature): WORKING")
+        ai_working = any(r['success'] for r in ai_tests)
+        real_ai_detected = any(r['success'] for r in ai_verification_tests)
+        
+        if ai_working and real_ai_detected:
+            print("   ✅ REAL AI Image Generation: WORKING")
+            print("   ✅ Gemini 2.5 Flash Integration: CONFIRMED")
+        elif ai_working and not real_ai_detected:
+            print("   ⚠️  AI Endpoints Working but MOCK Images Detected")
+            print("   ❌ CRITICAL: Still using mock images instead of real AI")
         else:
-            print("   ❌ Virtual Try-On (Core Feature): FAILED - This is critical!")
+            print("   ❌ AI Image Generation: FAILED")
         
-        if catalog_working:
-            print("   ✅ Saree Catalog: WORKING")
-        else:
-            print("   ⚠️  Saree Catalog: Limited functionality")
+        # Check pose and blouse style coverage
+        pose_tests = {
+            'front': any('Front' in r['name'] and r['success'] for r in self.test_results),
+            'side': any('Side' in r['name'] and r['success'] for r in self.test_results),
+            'back': any('Back' in r['name'] and r['success'] for r in self.test_results)
+        }
         
-        if favorites_working:
-            print("   ✅ Favorites System: WORKING")
+        blouse_tests = {
+            'traditional': any('Traditional' in r['name'] and r['success'] for r in self.test_results),
+            'modern': any('Modern' in r['name'] and r['success'] for r in self.test_results),
+            'sleeveless': any('Sleeveless' in r['name'] and r['success'] for r in self.test_results),
+            'full_sleeve': any('Full Sleeve' in r['name'] and r['success'] for r in self.test_results)
+        }
+        
+        print(f"\n📐 POSE STYLES TESTED:")
+        for pose, working in pose_tests.items():
+            status = "✅" if working else "❌"
+            print(f"   {status} {pose.capitalize()}: {'WORKING' if working else 'FAILED'}")
+        
+        print(f"\n👚 BLOUSE STYLES TESTED:")
+        for blouse, working in blouse_tests.items():
+            status = "✅" if working else "❌"
+            print(f"   {status} {blouse.replace('_', ' ').title()}: {'WORKING' if working else 'FAILED'}")
+        
+        # Component integration test
+        component_tests = [r for r in self.test_results if 'Components' in r['name']]
+        if any(r['success'] for r in component_tests):
+            print(f"\n🧩 SAREE COMPONENT INTEGRATION: ✅ WORKING")
         else:
-            print("   ⚠️  Favorites System: Issues detected")
+            print(f"\n🧩 SAREE COMPONENT INTEGRATION: ❌ FAILED")
         
         return self.tests_passed == self.tests_run
 
