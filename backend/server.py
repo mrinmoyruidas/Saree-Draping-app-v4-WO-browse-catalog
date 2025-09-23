@@ -346,9 +346,11 @@ async def process_virtual_tryon(request: TryOnRequest):
             7. Professional fashion photography quality with studio lighting
             8. Clean neutral background (light gray or white) to highlight the saree
             9. Natural, elegant pose that showcases the saree beautifully
-            10. High resolution and photorealistic details
-            11. The saree should look well-fitted and naturally draped
-            12. Maintain authentic Indian saree draping traditions
+            10. CONSISTENT HIGH RESOLUTION: Generate image in exactly 1024x1536 pixels (2:3 aspect ratio)
+            11. CONSISTENT QUALITY: High-definition photorealistic details with sharp focus
+            12. The saree should look well-fitted and naturally draped
+            13. Maintain authentic Indian saree draping traditions
+            14. SAME PHOTOGRAPHY SESSION FEEL: Ensure lighting and background consistency
             
             STYLE: High-end fashion photography, professional modeling, perfect lighting, sharp focus
             """
