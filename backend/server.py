@@ -501,7 +501,7 @@ CRITICAL SESSION CONSISTENCY RULES (Session: {session_id}):
         - The saree should look well-fitted and naturally draped with IDENTICAL patterns
         - Maintain authentic Indian saree draping traditions
         - SAME PHOTOGRAPHY SESSION FEEL: Ensure lighting, background, and MODEL CONSISTENCY across poses
-        - CRITICAL: This should look like the SAME woman wearing the SAME saree with SAME hair and accessories, photographed from different angles in the same session
+        - CRITICAL FINAL CHECK: This should look like the SAME woman wearing the SAME saree with SAME hair and accessories, photographed from different angles within the same 30-second time frame - NO variations in appearance, styling, or setup allowed
         
         STYLE: Professional fashion photography, high-end fashion shoot quality, perfect lighting, sharp focus
         """
