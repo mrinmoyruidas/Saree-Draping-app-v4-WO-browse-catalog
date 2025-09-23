@@ -207,8 +207,8 @@ async def generate_mock_tryon_image(request: TryOnRequest):
     """Generate a mock try-on image for testing when API key is not available"""
     logging.info(f"Generating mock try-on image for pose: {request.pose_style}, blouse: {request.blouse_style}")
     
-    # Create a simple colored image as mock result
-    width, height = 400, 600
+    # Create a simple colored image as mock result with consistent dimensions
+    width, height = 1024, 1536  # 2:3 aspect ratio for consistency
     
     # Choose color based on pose style
     colors = {
