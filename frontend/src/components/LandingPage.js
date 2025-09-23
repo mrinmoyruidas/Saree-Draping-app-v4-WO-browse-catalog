@@ -247,13 +247,13 @@ const LandingPage = () => {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <section id="features" className="py-12 md:py-20 px-4 sm:px-6 lg:px-8">
+        <div className="container-responsive">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            className="text-center mb-16"
+            className="text-center mb-12 md:mb-16"
           >
             <h2 className="heading-medium">Powerful Features</h2>
             <p className="text-body max-w-2xl mx-auto">
@@ -261,7 +261,7 @@ const LandingPage = () => {
             </p>
           </motion.div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
             {features.map((feature, index) => (
               <motion.div
                 key={index}
@@ -273,8 +273,8 @@ const LandingPage = () => {
                 <div className="mb-4 text-yellow-400 flex justify-center">
                   {feature.icon}
                 </div>
-                <h3 className="heading-small text-lg">{feature.title}</h3>
-                <p className="text-gray-300">{feature.description}</p>
+                <h3 className="heading-small text-base md:text-lg">{feature.title}</h3>
+                <p className="text-gray-300 text-sm md:text-base">{feature.description}</p>
               </motion.div>
             ))}
           </div>
