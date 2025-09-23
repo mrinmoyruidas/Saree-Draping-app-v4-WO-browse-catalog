@@ -205,8 +205,9 @@ const VirtualTryOn = () => {
   };
 
   // Save to favorites
-  const addToFavorites = async () => {
-    if (!tryOnResult) return;
+  const addToFavorites = async (pose) => {
+    const result = tryOnResults[pose];
+    if (!result) return;
     
     try {
       await axios.post(`${API}/favorites`, {
