@@ -360,11 +360,15 @@ CRITICAL SESSION CONSISTENCY RULES (Session: {session_id}):
             1. Generate an elegant Indian woman model with natural features and warm complexion
             2. CONSISTENCY: If this is part of a multi-pose session, maintain the SAME MODEL appearance, facial features, skin tone, and body proportions
             3. BLOUSE CONSISTENCY: Use EXACTLY the same blouse color and design across all poses - {blouse_descriptions[request.blouse_style]} blouse
-            4. HAIR & ACCESSORIES CONSISTENCY: 
-               - Maintain IDENTICAL hairstyle, hair length, hair color, and hair texture
-               - Keep EXACTLY the same hair accessories (flowers, clips, ornaments) in the same positions
-               - If hair has braids or specific styling, maintain that exact pattern
-               - Hair should look like the same person photographed from different angles, not restyled
+            4. HAIR & ACCESSORIES CONSISTENCY (ABSOLUTELY CRITICAL): 
+               - Maintain IDENTICAL hairstyle, hair length, hair color, and hair texture in BOTH poses
+               - Keep EXACTLY the same hair accessories (flowers, clips, ornaments) in the SAME positions
+               - If hair has braids or bun, maintain that EXACT pattern and style
+               - Hair should look like the same person photographed from different angles within 30 seconds
+               - NO variation in hair styling, length, or accessories between front and side view
+               - SAME FACE STRUCTURE: Keep identical facial features, skin tone, eye shape, nose, lips
+               - SAME PERSON: This must look like the same individual, not different people
+               - SAME SESSION: Both images should feel like they're from the same 5-minute photo shoot
             5. {saree_components_text}
             6. Position her in a {pose_descriptions[request.pose_style]} pose
             7. SAREE DRAPING CONSISTENCY:
