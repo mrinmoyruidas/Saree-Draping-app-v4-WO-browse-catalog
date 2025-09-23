@@ -130,15 +130,15 @@ const LandingPage = () => {
       </nav>
 
       {/* Hero Section */}
-      <section className="pt-24 pb-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+      <section className="pt-20 md:pt-24 pb-12 md:pb-20 px-4 sm:px-6 lg:px-8">
+        <div className="container-responsive">
+          <div className="grid lg:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Left Content */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8 }}
-              className="space-y-8"
+              className="space-y-6 md:space-y-8 text-center lg:text-left"
             >
               <div className="space-y-4">
                 <motion.h1 
@@ -150,7 +150,7 @@ const LandingPage = () => {
                   Virtual Saree Try-On
                 </motion.h1>
                 <motion.p 
-                  className="text-body text-xl"
+                  className="text-body text-lg md:text-xl"
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.4 }}
@@ -161,39 +161,39 @@ const LandingPage = () => {
               </div>
 
               <motion.div 
-                className="flex flex-col sm:flex-row gap-4"
+                className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6 }}
               >
                 <button
                   onClick={() => navigate('/tryon')}
-                  className="btn-primary flex items-center justify-center space-x-2"
+                  className="btn-primary flex items-center justify-center space-x-2 w-full sm:w-auto"
                 >
                   <span>Start Virtual Try-On</span>
-                  <ChevronRight className="w-5 h-5" />
+                  <ChevronRight className="w-4 h-4 md:w-5 md:h-5" />
                 </button>
                 
                 <button
                   onClick={() => navigate('/catalog')}
-                  className="btn-secondary flex items-center justify-center space-x-2"
+                  className="btn-secondary flex items-center justify-center space-x-2 w-full sm:w-auto"
                 >
                   <span>Browse Catalog</span>
-                  <ShoppingBag className="w-5 h-5" />
+                  <ShoppingBag className="w-4 h-4 md:w-5 md:h-5" />
                 </button>
               </motion.div>
 
               {/* Stats */}
               <motion.div 
-                className="grid grid-cols-2 md:grid-cols-4 gap-6 pt-8"
+                className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 pt-6 md:pt-8"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.8 }}
               >
                 {stats.map((stat, index) => (
                   <div key={index} className="text-center">
-                    <div className="text-2xl font-bold text-yellow-400">{stat.number}</div>
-                    <div className="text-sm text-gray-300">{stat.label}</div>
+                    <div className="text-xl md:text-2xl font-bold text-yellow-400">{stat.number}</div>
+                    <div className="text-xs md:text-sm text-gray-300">{stat.label}</div>
                   </div>
                 ))}
               </motion.div>
@@ -204,9 +204,9 @@ const LandingPage = () => {
               initial={{ opacity: 0, x: 50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
+              className="relative order-first lg:order-last"
             >
-              <div className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
+              <div className="relative h-64 md:h-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-2xl">
                 {carouselImages.map((image, index) => (
                   <motion.div
                     key={index}
@@ -220,9 +220,9 @@ const LandingPage = () => {
                       className="w-full h-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent">
-                      <div className="absolute bottom-8 left-8 text-white">
-                        <h3 className="text-xl font-semibold mb-2">{image.title}</h3>
-                        <p className="text-white/80">{image.description}</p>
+                      <div className="absolute bottom-4 md:bottom-8 left-4 md:left-8 text-white">
+                        <h3 className="text-lg md:text-xl font-semibold mb-2">{image.title}</h3>
+                        <p className="text-sm md:text-base text-white/80">{image.description}</p>
                       </div>
                     </div>
                   </motion.div>
@@ -234,7 +234,7 @@ const LandingPage = () => {
                     <button
                       key={index}
                       onClick={() => setCurrentImageIndex(index)}
-                      className={`w-3 h-3 rounded-full transition-colors ${
+                      className={`w-2 h-2 md:w-3 md:h-3 rounded-full transition-colors ${
                         index === currentImageIndex ? 'bg-yellow-400' : 'bg-white/50'
                       }`}
                     />
