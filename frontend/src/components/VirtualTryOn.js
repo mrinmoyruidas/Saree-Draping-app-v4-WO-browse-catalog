@@ -510,18 +510,18 @@ const VirtualTryOn = () => {
               </p>
             </div>
 
-            <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
               {/* Front View */}
               {tryOnResults.front && (
                 <div className="card">
                   <div className="text-center mb-4">
                     <h3 className="heading-small text-lg">Front View</h3>
                   </div>
-                  <div className="image-preview">
+                  <div className="image-preview responsive-image-container">
                     <img
                       src={tryOnResults.front.image}
                       alt="Virtual Try-On Front View"
-                      className="w-full h-auto rounded-lg"
+                      className="w-full h-auto rounded-lg responsive-tryon-image"
                     />
                   </div>
                   
@@ -557,11 +557,11 @@ const VirtualTryOn = () => {
                   <div className="text-center mb-4">
                     <h3 className="heading-small text-lg">Side View</h3>
                   </div>
-                  <div className="image-preview">
+                  <div className="image-preview responsive-image-container">
                     <img
                       src={tryOnResults.side.image}
                       alt="Virtual Try-On Side View"
-                      className="w-full h-auto rounded-lg"
+                      className="w-full h-auto rounded-lg responsive-tryon-image"
                     />
                   </div>
                   
