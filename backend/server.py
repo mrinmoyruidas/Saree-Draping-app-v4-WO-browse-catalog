@@ -27,9 +27,14 @@ db = client[os.environ['DB_NAME']]
 
 # Initialize OpenAI Image Generation
 api_key = os.environ.get('EMERGENT_LLM_KEY')
-image_gen = OpenAIImageGeneration(api_key=api_key)
-# Also initialize direct OpenAI client for image editing
-openai_client = OpenAI(api_key=api_key)
+if api_key and api_key != 'your_api_key_here':
+    image_gen = OpenAIImageGeneration(api_key=api_key)
+    # Also initialize direct OpenAI client for image editing
+    openai_client = OpenAI(api_key=api_key)
+else:
+    image_gen = None
+    openai_client = None
+    logging.warning("EMERGENT_LLM_KEY not properly configured - AI image generation will use mock responses")
 
 # Create the main app without a prefix
 app = FastAPI()
