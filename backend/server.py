@@ -374,7 +374,8 @@ async def process_virtual_tryon(request: TryOnRequest):
             REQUIREMENTS:
             - Elegant Indian woman model with natural features and warm complexion
             - CONSISTENCY: If this is part of a multi-pose session, maintain the SAME MODEL appearance, facial features, skin tone, and body proportions
-            - She should be wearing a {blouse_descriptions[request.blouse_style]} blouse
+            - BLOUSE CONSISTENCY: Use EXACTLY the same blouse color and design - {blouse_descriptions[request.blouse_style]} blouse
+            - HAIRSTYLE CONSISTENCY: Maintain the SAME hairstyle, hair length, hair color, and hair accessories
             - Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
             - Professional fashion photography quality with studio lighting
             - Clean neutral background to highlight the saree
@@ -383,7 +384,7 @@ async def process_virtual_tryon(request: TryOnRequest):
             - CONSISTENT QUALITY: High-definition photorealistic details with sharp focus
             - The saree should look well-fitted and naturally draped
             - SAME PHOTOGRAPHY SESSION FEEL: Ensure lighting, background, and MODEL CONSISTENCY across poses
-            - IMPORTANT: Keep the same woman's face, hair, and physical characteristics if generating multiple poses
+            - CRITICAL: Keep the same woman's face, hair, blouse color, and saree pattern if generating multiple poses
             
             STYLE: High-end fashion photography, professional modeling, perfect lighting
             """
