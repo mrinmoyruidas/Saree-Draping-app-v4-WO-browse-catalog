@@ -211,7 +211,7 @@ const VirtualTryOn = () => {
     
     try {
       await axios.post(`${API}/favorites`, {
-        tryon_id: tryOnResult.id,
+        tryon_id: result.id,
         user_id: 'demo_user' // In real app, this would be actual user ID
       });
       alert('Added to favorites!');
@@ -222,12 +222,13 @@ const VirtualTryOn = () => {
   };
 
   // Download result
-  const downloadResult = () => {
-    if (!tryOnResult) return;
+  const downloadResult = (pose) => {
+    const result = tryOnResults[pose];
+    if (!result) return;
     
     const link = document.createElement('a');
-    link.href = tryOnResult.image;
-    link.download = `saree-tryon-result-${Date.now()}.png`;
+    link.href = result.image;
+    link.download = `saree-tryon-${pose}-view-${Date.now()}.png`;
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -240,7 +241,7 @@ const VirtualTryOn = () => {
     setSareePallu(null);
     setSareeBorder(null);
     setSelectedCatalogItem(null);
-    setTryOnResult(null);
+    setTryOnResults({ front: null, side: null });
     setError('');
   };
 
