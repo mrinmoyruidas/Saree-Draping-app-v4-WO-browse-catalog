@@ -480,6 +480,8 @@ async def remove_from_favorites(tryon_id: str):
             raise HTTPException(status_code=404, detail="Try-on result not found")
         
         return {"message": "Removed from favorites successfully"}
+    except HTTPException:
+        raise  # Re-raise HTTP exceptions as-is
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to remove from favorites: {str(e)}")
 
