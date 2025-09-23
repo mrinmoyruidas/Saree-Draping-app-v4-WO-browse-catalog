@@ -78,6 +78,7 @@ class TryOnRequest(BaseModel):
     pose_style: str = "front"  # "front", "side", "back"
     blouse_style: str = "traditional"  # "traditional", "modern", "sleeveless", "full_sleeve"
     model_type: str = "indian_woman"  # Type of AI model to generate
+    session_id: Optional[str] = None  # Session ID for maintaining model consistency
 
 class TryOnResult(BaseModel):
     id: str = Field(default_factory=lambda: str(uuid.uuid4()))
