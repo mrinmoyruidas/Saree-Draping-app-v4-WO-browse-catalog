@@ -237,7 +237,7 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Frontend UI functionality testing"
+    - "AI image generation with real API key testing completed"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
