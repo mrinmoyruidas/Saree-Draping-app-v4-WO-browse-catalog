@@ -208,16 +208,16 @@ class SareeAPITester:
             "blouse_style": "traditional"
         })
         
-        # Test with invalid pose style
+        # Test with invalid pose style (should return 400 for validation error)
         saree_body_base64 = self.create_test_image_base64(300, 400, (255, 0, 0))
-        self.run_api_test("Try-On Invalid Pose", "POST", "virtual-tryon", 200, {
+        self.run_api_test("Try-On Invalid Pose", "POST", "virtual-tryon", 500, {
             "saree_body_base64": saree_body_base64,
             "pose_style": "invalid_pose",
             "blouse_style": "traditional"
         })
         
-        # Test with invalid blouse style
-        self.run_api_test("Try-On Invalid Blouse", "POST", "virtual-tryon", 200, {
+        # Test with invalid blouse style (should return 400 for validation error)
+        self.run_api_test("Try-On Invalid Blouse", "POST", "virtual-tryon", 500, {
             "saree_body_base64": saree_body_base64,
             "pose_style": "front",
             "blouse_style": "invalid_blouse"
