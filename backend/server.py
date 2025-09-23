@@ -372,7 +372,8 @@ async def process_virtual_tryon(request: TryOnRequest):
             - Professional fashion photography quality with studio lighting
             - Clean neutral background to highlight the saree
             - Natural, elegant pose that showcases the saree beautifully
-            - High resolution and photorealistic details
+            - CONSISTENT DIMENSIONS: Generate image in exactly 1024x1536 pixels (2:3 aspect ratio)
+            - CONSISTENT QUALITY: High-definition photorealistic details with sharp focus
             - The saree should look well-fitted and naturally draped
             
             STYLE: High-end fashion photography, professional modeling, perfect lighting
