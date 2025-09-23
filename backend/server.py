@@ -431,6 +431,8 @@ async def process_virtual_tryon(request: TryOnRequest):
         - Appropriate body proportions for traditional Indian attire
         - Confident and graceful demeanor
         - CONSISTENCY: If this is part of a multi-pose session, maintain the SAME MODEL appearance, facial features, skin tone, and body proportions
+        - BLOUSE CONSISTENCY: Use EXACTLY the same blouse color and design - {blouse_descriptions[request.blouse_style]} blouse
+        - HAIRSTYLE CONSISTENCY: Maintain the SAME hairstyle, hair length, hair color, and hair accessories
         
         SAREE DESIGN DETAILS:
         {saree_design_details}
