@@ -383,8 +383,16 @@ async def process_virtual_tryon(request: TryOnRequest):
             - Elegant Indian woman model with natural features and warm complexion
             - CONSISTENCY: If this is part of a multi-pose session, maintain the SAME MODEL appearance, facial features, skin tone, and body proportions
             - BLOUSE CONSISTENCY: Use EXACTLY the same blouse color and design - {blouse_descriptions[request.blouse_style]} blouse
-            - HAIRSTYLE CONSISTENCY: Maintain the SAME hairstyle, hair length, hair color, and hair accessories
-            - Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+            - HAIR & ACCESSORIES CONSISTENCY: 
+              * Maintain IDENTICAL hairstyle, hair length, hair color, and hair texture
+              * Keep EXACTLY the same hair accessories (flowers, clips, ornaments) in the same positions
+              * If hair has braids or specific styling, maintain that exact pattern
+              * Hair should look like the same person photographed from different angles, not restyled
+            - SAREE DRAPING CONSISTENCY:
+              * Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
+              * Maintain IDENTICAL pleating patterns and pallu fall across all poses
+              * The pallu should drape in the same manner, just shown from different angles
+              * Keep the same saree length and how it touches the ground
             - Professional fashion photography quality with studio lighting
             - Clean neutral background to highlight the saree
             - Natural, elegant pose that showcases the saree beautifully
@@ -392,7 +400,7 @@ async def process_virtual_tryon(request: TryOnRequest):
             - CONSISTENT QUALITY: High-definition photorealistic details with sharp focus
             - The saree should look well-fitted and naturally draped
             - SAME PHOTOGRAPHY SESSION FEEL: Ensure lighting, background, and MODEL CONSISTENCY across poses
-            - CRITICAL: Keep the same woman's face, hair, blouse color, and saree pattern if generating multiple poses
+            - CRITICAL: This should look like the SAME woman wearing the SAME saree with SAME hair and accessories, photographed from different angles in the same session
             
             STYLE: High-end fashion photography, professional modeling, perfect lighting
             """
