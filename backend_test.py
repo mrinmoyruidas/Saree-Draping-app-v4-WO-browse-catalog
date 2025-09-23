@@ -202,7 +202,7 @@ class SareeAPITester:
         """Test error handling scenarios"""
         print("\n🔍 Testing Error Scenarios...")
         
-        # Test virtual try-on without any saree data (should fail)
+        # Test virtual try-on without any saree data (should work with mock)
         self.run_api_test("Try-On No Saree Data", "POST", "virtual-tryon", 200, {
             "pose_style": "front",
             "blouse_style": "traditional"
