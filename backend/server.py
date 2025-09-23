@@ -269,8 +269,7 @@ async def process_virtual_tryon(request: TryOnRequest):
     # Prepare the prompt based on the pose style
     pose_descriptions = {
         "front": "front-facing pose with arms naturally by the sides, looking directly at camera",
-        "side": "elegant side profile pose showing the saree draping, three-quarter turn",
-        "back": "back view showing the saree blouse design and rear draping, hair styled in a bun"
+        "side": "elegant side profile pose showing the saree draping, three-quarter turn"
     }
     
     blouse_descriptions = {
