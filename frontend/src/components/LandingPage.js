@@ -300,18 +300,18 @@ const LandingPage = () => {
             {[
               {
                 step: "01",
-                title: "Upload Your Photo",
-                description: "Take or upload a clear photo of yourself in front, side, or back pose"
+                title: "Upload Saree Components",
+                description: "Upload your saree body, pallu, and border images or select from our curated catalog"
               },
               {
                 step: "02", 
-                title: "Choose Your Saree",
-                description: "Select from our catalog or upload your own saree design components"
+                title: "Choose Blouse Style",
+                description: "Select your preferred blouse style - traditional, modern, sleeveless, or full sleeve"
               },
               {
                 step: "03",
-                title: "See the Magic",
-                description: "Our AI instantly shows you how the saree looks on you in multiple poses"
+                title: "See Both Views Instantly",
+                description: "Our AI automatically generates front and side view models wearing your saree design"
               }
             ].map((step, index) => (
               <motion.div
