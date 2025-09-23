@@ -368,10 +368,11 @@ async def process_virtual_tryon(request: TryOnRequest):
         else:
             # Generate without uploaded components (using catalog or description)
             model_generation_prompt = f"""
-            Create a photorealistic image of a beautiful Indian woman wearing a {saree_description} in a {pose_descriptions[request.pose_style]}.
+            Create a photorealistic image of a beautiful Indian woman wearing a {saree_description} in a {pose_descriptions[request.pose_style]} (Session: {session_id}).
             
             REQUIREMENTS:
             - Elegant Indian woman model with natural features and warm complexion
+            - CONSISTENCY: If this is part of a multi-pose session, maintain the SAME MODEL appearance, facial features, skin tone, and body proportions
             - She should be wearing a {blouse_descriptions[request.blouse_style]} blouse
             - Drape the saree authentically in traditional Indian style with proper pleats and pallu positioning
             - Professional fashion photography quality with studio lighting
@@ -380,6 +381,8 @@ async def process_virtual_tryon(request: TryOnRequest):
             - CONSISTENT DIMENSIONS: Generate image in exactly 1024x1536 pixels (2:3 aspect ratio)
             - CONSISTENT QUALITY: High-definition photorealistic details with sharp focus
             - The saree should look well-fitted and naturally draped
+            - SAME PHOTOGRAPHY SESSION FEEL: Ensure lighting, background, and MODEL CONSISTENCY across poses
+            - IMPORTANT: Keep the same woman's face, hair, and physical characteristics if generating multiple poses
             
             STYLE: High-end fashion photography, professional modeling, perfect lighting
             """
