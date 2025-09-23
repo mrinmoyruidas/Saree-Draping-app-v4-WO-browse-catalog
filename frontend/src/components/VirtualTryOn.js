@@ -510,7 +510,7 @@ const VirtualTryOn = () => {
               </p>
             </div>
 
-            <div className="grid lg:grid-cols-2 gap-6 max-w-6xl mx-auto">
+            <div className="grid lg:grid-cols-2 gap-6 max-w-6xl mx-auto px-4">
               {/* Front View */}
               {tryOnResults.front && (
                 <div className="card">
