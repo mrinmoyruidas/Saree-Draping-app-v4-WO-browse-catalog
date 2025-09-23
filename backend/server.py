@@ -15,7 +15,8 @@ from emergentintegrations.llm.openai.image_generation import OpenAIImageGenerati
 from emergentintegrations.llm.chat import LlmChat, UserMessage, ImageContent
 from openai import OpenAI
 import io
-from PIL import Image
+from io import BytesIO
+from PIL import Image, ImageDraw, ImageFont
 
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
