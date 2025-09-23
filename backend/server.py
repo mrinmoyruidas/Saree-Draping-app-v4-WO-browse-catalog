@@ -292,13 +292,22 @@ async def process_virtual_tryon(request: TryOnRequest):
     try:
         logging.info("Starting AI model generation with saree components using Nano Banana API...")
         
-        # Initialize Gemini chat for image generation
+        # Initialize Gemini chat for image generation with consistent parameters
         chat = LlmChat(
             api_key=api_key, 
             session_id=f"tryon_{uuid.uuid4()}", 
-            system_message="You are an expert fashion AI that can generate realistic models wearing sarees. You can incorporate uploaded saree designs into photorealistic fashion photography."
+            system_message="You are an expert fashion AI that can generate realistic models wearing sarees. You can incorporate uploaded saree designs into photorealistic fashion photography. Always generate images with consistent dimensions and quality."
         )
-        chat.with_model("gemini", "gemini-2.5-flash-image-preview").with_params(modalities=["image", "text"])
+        chat.with_model("gemini", "gemini-2.5-flash-image-preview").with_params(
+            modalities=["image", "text"],
+            # Add consistent image generation parameters
+            image_generation_config={
+                "width": 1024,
+                "height": 1536,  # 2:3 aspect ratio for portrait fashion photography
+                "quality": "high",
+                "style": "photorealistic"
+            }
+        )
         
         # Prepare image contents for saree components if available
         image_contents = []
