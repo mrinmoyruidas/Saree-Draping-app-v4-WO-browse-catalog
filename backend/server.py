@@ -266,10 +266,10 @@ async def process_virtual_tryon(request: TryOnRequest):
         logging.info("Using mock AI generation due to missing API key")
         return await generate_mock_tryon_image(request)
     
-    # Prepare the prompt based on the pose style
+    # Prepare the prompt based on the pose style - Enhanced for consistency
     pose_descriptions = {
-        "front": "front-facing pose with arms naturally by the sides, looking directly at camera",
-        "side": "elegant side profile pose showing the saree draping, three-quarter turn"
+        "front": "front-facing pose with arms naturally by the sides, looking directly at camera - SAME MODEL as any previous poses in this session",
+        "side": "elegant side profile pose showing the saree draping, three-quarter turn - SAME MODEL with IDENTICAL appearance as any previous poses in this session"
     }
     
     blouse_descriptions = {
