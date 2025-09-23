@@ -144,7 +144,7 @@ const VirtualTryOn = () => {
     return sareeBody !== null || selectedCatalogItem !== null;
   };
 
-  // Generate virtual try-on
+  // Generate virtual try-on for both front and side views
   const generateTryOn = async () => {
     if (!canGenerateResult()) {
       setError('Please upload saree images or select from catalog');
@@ -156,33 +156,41 @@ const VirtualTryOn = () => {
     setLoadingMessage('Preparing your saree design...');
 
     try {
-      // Prepare request data (no user photo needed)
-      const requestData = {
-        saree_body_base64: sareeBody?.base64 || null,
-        saree_pallu_base64: sareePallu?.base64 || null,
-        saree_border_base64: sareeBorder?.base64 || null,
-        saree_item_id: selectedCatalogItem?.id || null,
-        pose_style: poseStyle,
-        blouse_style: blouseStyle
-      };
+      const poses = ['front', 'side'];
+      const results = {};
 
-      setLoadingMessage('AI is working its magic...');
-      
-      const response = await axios.post(`${API}/virtual-tryon`, requestData, {
-        timeout: 120000 // 2 minutes timeout
-      });
+      for (let i = 0; i < poses.length; i++) {
+        const pose = poses[i];
+        setLoadingMessage(`Generating ${pose} view... (${i + 1}/2)`);
 
-      if (response.data && response.data.result_image_base64) {
-        setTryOnResult({
-          id: response.data.id,
-          image: `data:image/png;base64,${response.data.result_image_base64}`,
-          poseStyle: response.data.pose_style,
-          blouseStyle: response.data.blouse_style
+        // Prepare request data
+        const requestData = {
+          saree_body_base64: sareeBody?.base64 || null,
+          saree_pallu_base64: sareePallu?.base64 || null,
+          saree_border_base64: sareeBorder?.base64 || null,
+          saree_item_id: selectedCatalogItem?.id || null,
+          pose_style: pose,
+          blouse_style: blouseStyle
+        };
+        
+        const response = await axios.post(`${API}/virtual-tryon`, requestData, {
+          timeout: 120000 // 2 minutes timeout
         });
-        setCurrentStep(3);
-      } else {
-        throw new Error('No result image received');
+
+        if (response.data && response.data.result_image_base64) {
+          results[pose] = {
+            id: response.data.id,
+            image: `data:image/png;base64,${response.data.result_image_base64}`,
+            poseStyle: response.data.pose_style,
+            blouseStyle: response.data.blouse_style
+          };
+        } else {
+          throw new Error(`No result image received for ${pose} view`);
+        }
       }
+
+      setTryOnResults(results);
+      setCurrentStep(3);
     } catch (error) {
       console.error('Try-on generation failed:', error);
       setError(
