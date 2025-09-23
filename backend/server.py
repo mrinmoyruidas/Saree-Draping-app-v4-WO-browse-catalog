@@ -421,13 +421,14 @@ async def process_virtual_tryon(request: TryOnRequest):
         
         # Create fallback prompt
         fallback_prompt = f"""
-        Create a highly realistic photograph of a beautiful Indian woman wearing a {saree_description} in a {pose_descriptions[request.pose_style]}.
+        Create a highly realistic photograph of a beautiful Indian woman wearing a {saree_description} in a {pose_descriptions[request.pose_style]} (Session: {session_id}).
         
         MODEL CHARACTERISTICS:
         - Elegant Indian woman with natural features and warm complexion
         - Professional model appearance suitable for saree photography
         - Appropriate body proportions for traditional Indian attire
         - Confident and graceful demeanor
+        - CONSISTENCY: If this is part of a multi-pose session, maintain the SAME MODEL appearance, facial features, skin tone, and body proportions
         
         SAREE DESIGN DETAILS:
         {saree_design_details}
@@ -441,6 +442,8 @@ async def process_virtual_tryon(request: TryOnRequest):
         - High resolution (1024x1536) and photorealistic details
         - The saree should look well-fitted and naturally draped
         - Maintain authentic Indian saree draping traditions
+        - SAME PHOTOGRAPHY SESSION FEEL: Ensure lighting, background, and MODEL CONSISTENCY across poses
+        - IMPORTANT: Keep the same woman's face, hair, and physical characteristics if generating multiple poses
         
         STYLE: Professional fashion photography, high-end fashion shoot quality, perfect lighting, sharp focus
         """
