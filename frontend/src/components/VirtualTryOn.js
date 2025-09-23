@@ -37,12 +37,14 @@ const VirtualTryOn = () => {
   const [sareeBody, setSareeBody] = useState(null);
   const [sareePallu, setSareePallu] = useState(null);
   const [sareeBorder, setSareeBorder] = useState(null);
-  const [poseStyle, setPoseStyle] = useState('front');
   const [blouseStyle, setBlouseStyle] = useState('traditional');
   const [selectedCatalogItem, setSelectedCatalogItem] = useState(null);
   
-  // Results
-  const [tryOnResult, setTryOnResult] = useState(null);
+  // Results - now storing both front and side view results
+  const [tryOnResults, setTryOnResults] = useState({
+    front: null,
+    side: null
+  });
 
   const poseOptions = [
     { value: 'front', label: 'Front View', description: 'Classic front-facing pose' },
