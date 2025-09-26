@@ -360,6 +360,7 @@ const VirtualTryOn = () => {
 
               {/* Navigation Buttons */}
               <div className="flex items-center space-x-2">
+                {/* CATALOG BUTTON - HIDDEN FOR NOW, AVAILABLE FOR FUTURE DEVELOPMENT */}
                 <button
                   onClick={() => navigate('/catalog')}
                   className="btn-secondary hidden md:flex items-center space-x-2 invisible"
