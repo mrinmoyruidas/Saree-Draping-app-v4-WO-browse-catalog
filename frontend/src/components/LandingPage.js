@@ -396,6 +396,7 @@ const LandingPage = () => {
               >
                 Start Virtual Try-On Now
               </button>
+              {/* BROWSE SAREE COLLECTION BUTTON - HIDDEN FOR NOW, AVAILABLE FOR FUTURE DEVELOPMENT */}
               <button
                 onClick={() => navigate('/catalog')}
                 className="btn-outline text-base md:text-lg px-6 md:px-8 py-3 md:py-4 w-full sm:w-auto hidden"
