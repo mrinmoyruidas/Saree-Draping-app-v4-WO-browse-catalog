@@ -176,7 +176,7 @@ const LandingPage = () => {
                 
                 <button
                   onClick={() => navigate('/catalog')}
-                  className="btn-secondary flex items-center justify-center space-x-2 w-full sm:w-auto"
+                  className="btn-secondary flex items-center justify-center space-x-2 w-full sm:w-auto hidden"
                 >
                   <span>Browse Catalog</span>
                   <ShoppingBag className="w-4 h-4 md:w-5 md:h-5" />
