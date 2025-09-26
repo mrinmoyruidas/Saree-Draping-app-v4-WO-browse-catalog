@@ -362,7 +362,7 @@ const VirtualTryOn = () => {
               <div className="flex items-center space-x-2">
                 <button
                   onClick={() => navigate('/catalog')}
-                  className="btn-secondary hidden md:flex items-center space-x-2"
+                  className="btn-secondary hidden md:flex items-center space-x-2 invisible"
                 >
                   <ShoppingBag className="w-4 h-4" />
                   <span>Catalog</span>
